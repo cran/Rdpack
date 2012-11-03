@@ -1,4 +1,4 @@
-b8feb62960de04cea5b8ccebcb140ab7 *DESCRIPTION
+26f2e768c8253e37dcd63cd5d30a7369 *DESCRIPTION
 df390c53434517b304ac5db487184641 *NAMESPACE
 d1bf76540a4cd37926f7d91e8a25ff1f *R/Rdo2Rdf.R
 f154da8f52d53c0da9e487f98e22f577 *R/alias.R
@@ -17,7 +17,7 @@ d2ffa71f906c5b43546ffdbb93f7ad1b *R/slots.R
 a976be732dcc13285ecaa09f163dd9cf *R/usage.R
 25696fa863f54ca943f36522630a303b *R/utils.R
 4a5b749ed1ba800afb4b164ea1f1a4d9 *R/zzobsolete.R
-9504db0b40b4bf309c0314bcdc2a5370 *build/partial.rdb
+95ddfa0bb33791bdd2c4609eb8eea97a *build/partial.rdb
 e70523f8b6b1c7354ab40d846a60bfb4 *man/Rd_combo.Rd
 fe493e78fed8204471cd438a4c6987c4 *man/Rd_remove_srcref.Rd
 64ce710c0c0bd056afc211aa0c0e6399 *man/Rdapply.Rd
