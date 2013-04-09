@@ -51,7 +51,7 @@ Rdo2Rdf(rdo, deparse = FALSE, ex_restore = FALSE, file = NULL,
 
   The initial intent of this function (and the package Rdpack as a whole
   was not to refer to the Rd source file. However, there is some
-  flexibility in the Rd syntax that do not allow the source file to be
+  flexibility in the Rd syntax that does not allow the source file to be
   restored identically from the parsed object. This concerns mainly
   backslahes (and to some extent curly braces) which in certain contexts
   may or may not be escaped and the parsed object is the same. Although
@@ -93,7 +93,7 @@ Rdo2Rdf(rdo, deparse = FALSE, ex_restore = FALSE, file = NULL,
 
 
   However, the arguments of \verb{\eqn} are parse_Rd-ed differently (or
-  so it seems even though they are also in verbatim.
+  so it seems) even though they are also in verbatim.
 
 
 }

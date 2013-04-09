@@ -46,7 +46,7 @@ f <-  function(x) Rdo_is_newline(x)
 
 nl <- Rdo_locate_leaves(rdo, f )
 
-length(nl)  # there ae quite a few newline leaves!
+length(nl)  # there are quite a few newline leaves!
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

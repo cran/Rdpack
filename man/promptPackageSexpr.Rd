@@ -8,7 +8,8 @@
   computed is produced with Sexpr's so that it is always up to date.
 }
 \usage{
-promptPackageSexpr(package, filename = NULL, final = TRUE, overview = FALSE)
+promptPackageSexpr(package, filename = NULL, final = TRUE,
+                   overview = FALSE, bib = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,6 +21,10 @@ promptPackageSexpr(package, filename = NULL, final = TRUE, overview = FALSE)
   \item{overview}{logical; if \code{TRUE} creates sections with hints
     what to put in them, otherwise such sections are written to the file
     but are commented out.}
+  \item{bib}{If TRUE, create a comment line in the references section
+    that will cause \code{\link{rebib}} to import all references from
+    the default bib file.
+  }
 }
 \details{
   The generated skeleton is functionally (almost) equivalent to that
@@ -35,6 +40,10 @@ promptPackageSexpr(package, filename = NULL, final = TRUE, overview = FALSE)
 
   \code{promptPackageSexpr} needs to be called only once to create the
   initial skeleton. Then the Rd file can be edited as needed.
+
+  If the Rd file is generated with the option \code{bib = TRUE} (or the
+  appropriate lines are added to the refernces section manually) the
+  references can be updated at any time by a call of \code{rebib}.
 
 
   todo: At the moment \code{final=FALSE} has the effect
@@ -58,7 +67,7 @@ promptPackageSexpr(package, filename = NULL, final = TRUE, overview = FALSE)
   the overview. Since the documentation is installed together with the
   package this is no surprise, of course. This may only cause a problem
   if documentation is produced with \code{R CMD Rd2pdf} before the
-  updated pversion is installed.
+  updated version is installed.
 
   This function is not called \code{repromptXXX} since the idea is that
   it is called only once and then the Rd file can be edited freely, see

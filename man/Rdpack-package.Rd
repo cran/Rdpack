@@ -37,8 +37,15 @@
   updated and if there are undescribed arguments, additional items are
   put in the `arguments' section.
 
-  The main function provided by this package is
-  \code{\link{reprompt}}. It produces a skeleton documentation for the
+  Another set of functions is for management of bibliographic
+  references.
+
+  The main functions provided by this package are
+    \code{\link{reprompt}}, \code{\link{promptPackageSexpr}}, and
+    \code{\link{rebib}}.
+
+
+  \code{\link{reprompt}} produces a skeleton documentation for the
   requested object, similarly to functions like \code{prompt},
   \code{promptMethods}, and \code{promptClass}.  Unlike those functions,
   \code{\link{reprompt}} updates existing documentation (installed or in
@@ -54,11 +61,12 @@
     reprompt(reprompt)
     reprompt("reprompt")
   }
-  \code{reprompt} updates the documentation and writes the updated
-  Rd file in the current working directory, see \code{\link{reprompt}}
-  for details.
+  \code{reprompt} updates the documentation of all objects described in
+  the Rd object or file, and writes the updated Rd file in the current
+  working directory, see \code{\link{reprompt}} for details.
 
-  The function \code{\link{promptPackageSexpr}} creates a skeleton for a
+
+  \code{\link{promptPackageSexpr}} creates a skeleton for a
   package overview in file \verb{name-package.Rd}. Then the file can be
   edited as needed. This function needs to be called only once for a
   package since automatic generation of information in
@@ -73,6 +81,30 @@
   The factual information at the beginning of this help topic (the index
   above, the version and other stuff that can be determined
   automatically) is kept automatically up to date.
+
+  \code{\link{rebib}} updates the bibliographic references in an Rd
+  file. Rdpack uses a simple scheme for inclusion of
+  bibliographic references. The key for each reference is in a TeX comment
+  line, as in:
+  \preformatted{\references{
+    ...
+    \% bibentry: key1
+    \% bibentry: key2
+    ...
+  }
+  }
+  \code{rebib} puts each reference after the line containing its
+  key. It does nothing if the reference has been put by a previous call
+  of \code{rebib}. If the Bibtex entry for some references changes, it
+  may be necessary to update them in the Rd file, as well. Call
+  \code{rebib} with \code{force = TRUE} to get this effect. There is
+  also a facility to include all references from the Bibtex file, see
+  the documentation of \code{\link{rebib}} for details.
+
+  The Bibtex source for the references is by default a file
+  "REFERENCES.bib" located in the root of the package installation
+  folder.
+
 
   Note that there are other, more sophisticated, approaches to keeping
   documentation and code in synchron, for example package \verb{roxygen}
@@ -103,15 +135,24 @@
 
   The remaining functions in the package are for programming with Rd
   objects (and probably many of them should not be exported).
+
 }
 \author{
   \Sexpr[stage=build]{pd$Author}
 
 Maintainer: \Sexpr[stage=build]{pd$Maintainer}
 }
-% \references{
-% ~~ Literature or other references for background information ~~
-% }
+\references{
+  % bibentry:all
+Francois R (2011).
+\emph{bibtex: bibtex parser}.
+R package version 0.3-0, \url{http://CRAN.R-project.org/package=bibtex}.
+
+Murdoch D (2010).
+``Parsing Rd files.''
+\url{http://developer.r-project.org/parseRd.pdf}.
+% end:bibentry:all
+}
 \note{
   All processing is done on the parsed Rd objects, i.e. objects of class
   "Rd" or pieces of such objects.
@@ -133,7 +174,8 @@ Maintainer: \Sexpr[stage=build]{pd$Maintainer}
 \seealso{
 %  \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
   \code{\link{reprompt}},
-  \code{\link{promptPackageSexpr}}
+  \code{\link{promptPackageSexpr}},
+  \code{\link{rebib}}
 }
 \examples{
 # \dontrun{
@@ -174,6 +216,10 @@ Maintainer: \Sexpr[stage=build]{pd$Maintainer}
 
 # # create a skeleton "mypackage-package.Rd"
 # promptPackageSexpr("mypackage")
+#
+# # update the references in "mypackage-package.Rd"
+# # rebib(infile="path/to/mypackage/man/mypackage-package.Rd", force=TRUE)
+# 
 # }
 
 }

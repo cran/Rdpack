@@ -41,7 +41,13 @@ Rdo_insert <- function(rdo, val, newline = TRUE){
 
     pos <- Rdo_get_insert_pos(rdo, tag)
 
-    if(newline  &&  !Rdo_is_newline(rdo[[pos]]) )
+                                                       # 2013-03-29 - additional check for pos
+                                                       #        todo: this is incomplete!
+    if(newline && (   (length(pos) == 1 && pos <= length(rdo) && !Rdo_is_newline(rdo[[pos]]))
+                   || (length(pos) == 1 && pos >  length(rdo))
+                   || length(pos) > 1   # todo: this is incomplete
+                   )
+       )
         rdo <- Rdo_insert_element(rdo, Rdo_newline(), pos)
 
     rdo <- Rdo_insert_element(rdo, val, pos)
@@ -200,11 +206,14 @@ Rdo_modify <- function(rdo, val, create=FALSE, replace=FALSE, top = TRUE){
     sapply(indx, function(x) .get_item_label(rdo,x))
 }
                                                            # manipulation of specific sections
-             # todo: this is very similar to parse_Rdname
+
+                        # todo: this is very similar to parse_Rdname
+                        #       2012-11-04 partly done, introduced function .parse_long_name()
 .get.name_content <- function(rdo){      # todo: error processing             Rd section \name
     name <- rdo[[which( tools:::RdTags(rdo) == "\\name" )]]
-    short <- gsub("^([^-]+)-.*", "\\1", name)   # dropping "-methods" or similar, if present
-
+                                   # 2012-11-04   # dropping "-methods" or similar, if present
+                                                  # short <- gsub("^([^-]+)-.*", "\\1", name)
+    short <- .parse_long_name(name)["name"]
     c(name = name, short = short)
 }
                                                                        # Rd section \arguments

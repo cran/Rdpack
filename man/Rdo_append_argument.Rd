@@ -28,7 +28,7 @@ Rdo_append_argument(rdo, argname, description = NA, indent = "  ", create = FALS
 
 \details{
   Appends one or more items to the section describing arguments of
-  functions of an Rd object. The section is created if not present.
+  functions in an Rd object. The section is created if not present.
 
   If \code{description} is missing or NA, a "todo" text is inserted.
 

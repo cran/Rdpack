@@ -13,11 +13,13 @@ list_Rd(..., Rd_tag = NULL, Rd_class = FALSE)
   \item{Rd_class}{logical; if TRUE, the result will be of class "Rd".}
 }
 \details{
+
   The names of named arguments specify tags for the corresponding
-  elements. This is a convenient way to specify sections, items, etc, in
-  cases when the arguments have not being tagged by  previous
-  processing. Character string arguments are converted to the
-  appropriate Rd pieces.
+  elements (not arbitrary tags, ones that are converted to macro names
+  by prepending backslash to them). This is a convenient way to specify
+  sections, items, etc, in cases when the arguments have not being
+  tagged by previous processing. Character string arguments are
+  converted to the appropriate Rd pieces.
 
   Argument \code{...} may contain a mixtue of character vactors and Rd
   pieces.

@@ -1,18 +1,36 @@
+.parse_long_name <- function(fnam){           # 2012-11-04 new, code from .capture_promptAny()
+    namreg <- "^(.+)-([^-]+)$"
+    if(grepl(namreg, fnam)){                    # fnam is of the form xxxx-yyy (non-empty rhs)
+        fname  <- gsub(namreg, "\\1", fnam)
+        type   <- gsub(namreg, "\\2", fnam)   # without "-"
+        ## suffix <- gsub("^([^-]+)(-.*)", "\\2", fnam)   # with "-"
+    }else{
+        fname <- fnam
+        type = ""
+    }
+
+    c(name = fname, type = type)
+}
+
 parse_Rdname <- function(rdo){  # 2012-10-01 todo: Rdpack-internal ste dade type="internal"
                            # 2012-10-01 otkomentiram tova, to raboteshe vyarno po sluchaynost!
                                         # (ponezhe gsub() po-dolu go prevrasta v character()!)
                                     # nam <- rdo[[ which( tools:::RdTags(rdo) == "\\name" ) ]]
     ind <- which( tools:::RdTags(rdo) == "\\name" )
     nam <- c( rdo[[ c(ind, 1) ]])  # assumes length(ind) == 1
-
-    if(grepl("^([^-]+)-.*", nam)){                               # nam is of the form xxxx-yyy
-        fname  <- gsub("^([^-]+)-.*", "\\1", nam)
-        type   <- gsub("^([^-]+)-(.*)", "\\2", nam)   # suffix without the '-'
-        # suffix <- gsub("^([^-]+)(-.*)", "\\2", nam) #        with the "-"
-    }else{
-        fname <- nam
-        type = ""
-    }
+            # 2012-11-04 changed with the code after the commented out section
+            #
+            # if(grepl("^([^-]+)-.*", nam)){                    # nam is of the form xxxx-yyy
+            #     fname  <- gsub("^([^-]+)-.*", "\\1", nam)
+            #     type   <- gsub("^([^-]+)-(.*)", "\\2", nam)   # suffix without the '-'
+            #     # suffix <- gsub("^([^-]+)(-.*)", "\\2", nam) #        with the "-"
+            # }else{
+            #     fname <- nam
+            #     type = ""
+            # }
+    wrknam <- .parse_long_name(nam)
+    fname <- wrknam["name"]
+    type <- wrknam["type"]
 
     doctype <- which(tools:::RdTags(rdo) == "\\docType")    # malko kato krapka
     if(length(doctype) > 0  && type == "" ){  # todo: sravni s gornoto!

@@ -21,12 +21,12 @@ inspect_signatures(rdo, package = NULL, sec = "Methods")
 %- maybe also 'usage' for other objects documented here.
 
 \arguments{
-  \item{rdo}{
-%%     ~~Describe \code{rdo} here~~
-}
-  \item{package}{~~ TODO: describe this argument. ~~}
-  \item{sec}{~~ TODO: describe this argument. ~~}
-  \item{final}{~~ TODO: describe this argument. ~~}
+  \item{rdo}{an Rd object.}
+  \item{package}{the name of a package, a character string or NULL.}
+  \item{sec}{the name of a section to look into, a character string.}
+  \item{final}{If not TRUE insert text with suggestions, otherwise
+    comment the suggestions out.
+  }
 }
 
 \details{

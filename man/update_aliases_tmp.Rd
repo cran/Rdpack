@@ -16,7 +16,7 @@ update_aliases_tmp(rdo, package = NULL)
 
 \arguments{
   \item{rdo}{an Rd object}
-  \item{package}{~~ TODO: describe this argument. ~~}
+  \item{package}{the name of a package, a character string.}
 }
 
 \details{

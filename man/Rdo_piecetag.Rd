@@ -7,11 +7,11 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 
 \title{
-  Dummy title
+  Give information about Rd elements
 }
 
 \description{
-  Dummy description.
+  Give information about Rd elements.
 }
 
 \usage{

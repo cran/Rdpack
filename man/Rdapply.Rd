@@ -8,7 +8,7 @@
 \usage{
 Rdapply(x, \dots)
 
-Rdtagapply(object, FUN, rdtag, classes = "character", how = "replace", 
+Rdtagapply(object, FUN, rdtag, classes = "character", how = "replace",
            \dots)
 
 rattr(x, y)
@@ -21,8 +21,12 @@ rattr(x, y)
     is \code{rdtag}.}
   \item{y}{an Rd object with the same structure as \code{x}, see `Details'.}
   \item{\dots}{arguments to pass to \code{rapply}, see `Details'.}
-  \item{classes}{~~ TODO: describe this argument. ~~}
-  \item{how}{~~ TODO: describe this argument. ~~}
+  \item{classes}{a character vector, passed on to \code{\link{rapply}},
+    see `Details'.
+  }
+  \item{how}{a character string, passed on to \code{\link{rapply}},
+    see `Details'.
+  }
 }
 \details{
   \code{Rdapply} works like \code{rapply} but preserves the attributes
@@ -33,8 +37,11 @@ rattr(x, y)
   Note that the object returned by \code{rapply} is assumed to have
   identical structure to the original object. This means that argument
   \code{how} of \code{rapply} must not be "unlist" and normally will be
-  "replace". See the documentation of \code{rapply} for details and the
-  possible choices of other arguments passed to it via \code{\dots}.
+  "replace".  \code{Rdtagapply} gives sensible default values for
+  \code{classes} and \code{how}.  See the documentation of
+  \code{\link{rapply}} for details and the possible choices for
+  \code{classes}, \code{how} or other arguments passed to it via
+  \code{\dots}.
 
   \code{Rdtagapply} is a convenience variant of \code{Rdapply} for the
   common task of modifying or examining only elements with a given
@@ -44,7 +51,8 @@ rattr(x, y)
   "mathVERB" and "nonmathVERB" are provided, such that "mathVERB" is for
   actions on the first argument of the mathematical macros \verb{\eqn} and
   \verb{\deqn}, while "nonmathVERB" is for actions on "VERB" macros in
-  all other contexts.
+  all other contexts. There is also a pseudo-tag "nonmath" for anything
+  that is not math.
 
   \code{rattr} is an auxilliary function which takes two Rd objects
   (with identical structure) and recursively examines them. It makes the

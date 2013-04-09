@@ -8,7 +8,7 @@
 }
 \usage{
 reprompt(object, infile = NULL, Rdtext = NULL, final = TRUE,
-         type = NULL, package = NULL, methods, verbose = TRUE,
+         type = NULL, package = NULL, methods = NULL, verbose = TRUE,
          filename = NULL, sec_copy = TRUE, \dots)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -44,6 +44,20 @@ reprompt(object, infile = NULL, Rdtext = NULL, final = TRUE,
   way as in the case of \code{infile}. If there is no documentation for
   the object, \code{reprompt} creates a skeleton Rd file similar to the
   one produced by the base R functions of the \code{prompt} family.
+
+  For S4 methods and classes the argument "package" is often needed to
+  restrict the output to methods defined in the package of interest.
+  \preformatted{
+    reprompt("myfun-methods")
+
+    reprompt("[<--methods", package = "mypackage")             # or
+    reprompt("[<-", type = "methods", package = "mypackage")
+
+    reprompt("myclass", type = "class", package = "mypackage") # or
+    reprompt("myclass-class", package = "mypackage")
+  }
+  For "myfun" above the "package" argument may not matter but for the
+  replacement method it almost certainly will.
 
   Below are the details.
 
@@ -126,7 +140,7 @@ reprompt(object, infile = NULL, Rdtext = NULL, final = TRUE,
 
   The arguments of \code{reprompt} are similar to prompt, with some
   additions. As in \code{prompt}, \code{filename} specifies the output
-  file. In \code{reprompt} a new argument, \code{filename}, specifies the
+  file. In \code{reprompt} a new argument, \code{infile}, specifies the
   input file containing the Rd source.
 
   When \code{reprompt} is used to update sources of Rd documentation for
@@ -141,14 +155,21 @@ reprompt(object, infile = NULL, Rdtext = NULL, final = TRUE,
   forget to name the argument,
   e.g. \code{reprompt(infile="./Rdpack/man/reprompt.Rd")}. Otherwise the
   argument is taken to be the name of a function.
+  Currently a convenience convention is that if \code{infile} is missing
+  and \code{object} is a character string ending in ".Rd" and containing
+  a forward slash (i.e. it looks like Rd file in a directory), then it
+  is taken to be \code{infile}. However, this feature should not be
+  relied upon as it may be withdrawn since it is dubious and only
+  partially solves the problem with forgetting the name of the argument.
 
   While \code{reprompt} adds new items to the documentation, it never
   removes existing content. It only issues a suggestion to remove an
   item, if it does not seem necessary any more (e.g. a removed argument
   from a function definition).
 
-  \code{reprompt} handles usage statements for S3 methods having the
-  form \verb{\method{fun}{class}(args...)}.
+  \code{reprompt} handles usage statements for S3 and S4  methods
+  introduced with any of the macros \verb{\method}, \verb{\S3method} and
+  \verb{\S4method}, as in \verb{\method{fun}{class}(args...)}.
 
   Usage statements for functions are split over two or more lines if
   necessary. The user may edit them afterwards if the automatic
@@ -162,17 +183,12 @@ reprompt(object, infile = NULL, Rdtext = NULL, final = TRUE,
   the usage of any of the described functions has changed. Manual
   formatting may be lost in such cases.
 
-
-  Currently a convenience convention is that if \code{infile} is missing
-  and \code{object} is a character string ending in ".Rd" and containing
-  a forward slash (i.e. it looks like Rd file in a directory), then it
-  is taken to be \code{infile}. However, this feature should not be
-  relied upon as it may be withdrawn since it is dubious and only
-  partially solves the problem with forgetting the name of the argument.
-
-
   Todo: add an S3class argument (or equivalent) to allow specification
-  of S3 methods for \code{reprompt}.
+  of S3 methods for \code{reprompt}. Note that S3 methods present in
+  usage statements are already processed. Also, giving the full name of
+  an S3 method as \code{fun.class} works, as well
+  (e.g. \code{reprompt(predict.lm)}).
+
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

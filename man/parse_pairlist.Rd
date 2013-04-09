@@ -19,8 +19,10 @@ pairlist2f_usage1(x, name, S3class = "", S4sig = "", infix = FALSE,
   \item{S3class}{S3 class, see `Details'}
   \item{S4sig}{S4 signature, see Details.}
   \item{infix}{if \code{TRUE} the function usage is in infix form, see
-                 Details.}
-  \item{fu}{~~ TODO: describe this argument. ~~}
+    Details.}
+  \item{fu}{if TRUE the object is a function, otherwise it is something
+    else (e.g. a variable or a constant like \code{pi} and \code{Inf}).
+  }
 }
 \details{
   These functions are mostly internal.
@@ -37,7 +39,7 @@ pairlist2f_usage1(x, name, S3class = "", S4sig = "", infix = FALSE,
 
   \code{pairlist2f_usage1} adds components \code{name} (function name),
   \code{S3class}, \code{S4sig} and \code{infix}. \code{S3class} is set
-  for S3 methods, \code{S4sig} is he signature of an S4 methods (as used
+  for S3 methods, \code{S4sig} is the signature of an S4 method (as used
   in Rd macro \verb{\S4method}). \code{infix} is \code{TRUE} for the
   rare occations of usages of infix operators.  The result is given
   class "f_usage". This class has a method for \code{as.character} which
@@ -67,6 +69,9 @@ pairlist2f_usage1(x, name, S3class = "", S4sig = "", infix = FALSE,
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
+\seealso{
+  \code{\link{promptUsage}}
+}
 
 \examples{
 parse_pairlist(formals(lm))

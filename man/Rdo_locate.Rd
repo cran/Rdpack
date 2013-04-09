@@ -22,14 +22,21 @@ Rdo_locate(object, f = function(x) TRUE, pos_only = TRUE,
     and position,  it is called and the value is returned along with the
     position, see Details.}
 
-  \item{nested}{~~ TODO: describe this argument. ~~}
+  \item{nested}{a logical value, it has effect only when \code{lists} is
+    TRUE, see `Details'.
+  }
 }
 \details{
 
   With the default setting of \code{lists = FALSE}, the function
   \code{f} is applied to each leave (a character string) of the Rd
   object. If \code{lists = TRUE} the function \code{f} is applied also
-  to each branch (a list).
+  to each branch (a list). In this case, argument \code{nested} controls
+  what happens when \code{f} returns TRUE. If \code{nested} is TRUE,
+  each element of the list is also inspected recursively, otherwise this
+  is not done and effectively, the list is considered a leave. If
+  \code{f} does not return TRUE, the value of \code{nested} has no
+  effect and the elements of the list are inspected.
 
   The position of each object for which \code{f} returns TRUE is
   recorded as a numeric vector.

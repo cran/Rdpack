@@ -32,7 +32,7 @@ Rdo_drop_empty(rdo, sec = TRUE)
   For \code{Rdo_empty_sections}, the names of the empty sections as a
   character vector.
 
-  For \code{Rdo_drop_empty}, the Rd object with stripped from empty
+  For \code{Rdo_drop_empty}, the Rd object stripped from empty
   sections.
 }
 

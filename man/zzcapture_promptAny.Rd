@@ -10,7 +10,7 @@
 \description{Internal functions used by reprompt.}
 
 \usage{
-.capture_promptAny(fnam, final, \dots, methods)
+.capture_promptAny(fnam, type, package, final, \dots, methods)
 
 .capture_installed_help(fnam, type = NULL, package = NULL,
                         suffix = NULL)
@@ -29,7 +29,10 @@
     Details.}
   \item{package}{the package where to look for objects or documentation,
     useful if more objects of the same name exist.}
-  \item{suffix}{~~ TODO: describe this argument. ~~}
+  \item{suffix}{a character string to be appended to \code{fnam} to
+    obtain the complete name of the help topic, e.g. "-class",
+    "-method".
+  }
 }
 
 \details{

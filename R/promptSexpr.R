@@ -1,5 +1,6 @@
                      # like promptPackage but uses \Sexpr{} for automatic information updating
-promptPackageSexpr <- function(package, filename= NULL, final = TRUE, overview = FALSE){
+promptPackageSexpr <- function(package, filename= NULL, final = TRUE, overview = FALSE,
+                               bib = TRUE){   # 2013-03-30 neew arg. `bib'
     paste0 <- function(...) paste(..., sep="")
 
     overv <- if(overview | !final)  ""  else  "% "
@@ -43,9 +44,10 @@ promptPackageSexpr <- function(package, filename= NULL, final = TRUE, overview =
              , ""
              , paste0("Maintainer: ", "\\Sexpr[stage=build]{pd$Maintainer}")
              , "}"
-             , "% \\references{"
-             , "% ~~ Literature or other references for background information ~~"
-             , "% }"
+             , "\\references{"
+             , if(bib) "% bibentry:all"
+                 else  "% ~~ Literature or other references for background information ~~"
+             , "}"
              , "% ~~ Optionally other standard keywords, one per line, from file KEYWORDS in ~~"
              , "% ~~ the R documentation directory ~~"
              , "\\keyword{ package }"

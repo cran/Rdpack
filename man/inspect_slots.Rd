@@ -16,32 +16,14 @@ inspect_slots(rdo, final = TRUE)
 }
 
 %- maybe also 'usage' for other objects documented here.
-
 \arguments{
-  \item{rdo}{an Rd object}
-  \item{final}{~~ TODO: describe this argument. ~~}
+  \item{rdo}{an Rd object.}
+  \item{final}{if not TRUE insert text with suggestions, otherwise
+    comment the suggestions out.
+  }
 }
-
-
-
-
-
-
-
 \author{Georgi N. Boshnakov}
-
-
-
-
 %% ~Make other sections like Warning with \section{Warning }{....} ~
-
-
-
-
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-
-% R documentation directory.
-
 \keyword{RdS4}
 %\keyword{RdoProgramming}
 

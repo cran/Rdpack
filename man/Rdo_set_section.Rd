@@ -40,7 +40,7 @@ Rdo_set_section(text, sec, file, \dots)
 
   By default \code{Rdo_set_section} does not create the section if it
   does not exist since this may not be desirable for some Rd files.  The
-  "..."  arguments can be used to change this. they are passed on to
+  "..."  arguments can be used to change this, they are passed on to
   \code{\link{Rdo_modify}}, see its documentation for details.
 
 }

@@ -16,8 +16,9 @@ Rdo_reparse(rdo)
   one, since one and the same Rd file can be produced by different (but
   equivalent) Rd objects.
 
-  Also, the function in this package do not attend to attribute
+  Also, the functions in this package do not attend to attribute
   "srcref" (and do not use it) and reparsing takes care of this.
+  (todo: check if athere is a problem if the tempfile disappears.)
 }
 
 

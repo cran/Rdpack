@@ -29,7 +29,7 @@ Rd_combo(rd, f, ..., .MORE)
   results of \code{f}.
 
   A typical value for \code{.MORE} is \code{reprompt} or another
-  function tha saves the resulting Rd object.
+  function that saves the resulting Rd object.
 
   todo: \code{Rd_combo} is already useful but needs further work.
 }

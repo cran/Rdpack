@@ -1,4 +1,4 @@
-\name{Rdo_replace_section}
+\name{Rdo_modify}
 
 \alias{Rdo_replace_section}
 \alias{Rdo_modify}

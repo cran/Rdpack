@@ -37,23 +37,9 @@ Rdo_modify_simple(rdo, text, section, ...)
 \value{
   an Rd object
 }
-
-
-
 \author{Georgi N. Boshnakov}
-
-
-
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-
-
-
-
-
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-
-% R documentation directory.
+\seealso{
+  \code{\link{Rdo_modify}}
+}
 
 \keyword{RdoBuild}

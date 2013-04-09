@@ -1,0 +1,29 @@
+Changes in Version 0.4-1
+   - new major feature: processing references from Bibtex files.
+     The top user level function is rebib(),  which updates
+     section "references" in an Rd file. promptPackageSexpr() has
+     been updated to use this feature. inspect_Rdbib() can be used
+     in programming.
+
+   - new auxiliary functions for work with bibentry objects.
+
+   - new convenience programming functions for Rd objects.
+
+   - some small bug fixes.
+
+   - some gaps in the documentation filled.
+
+
+Changes in Version 0.3-11
+
+   - reprompt() did not handle properly S4 replacement methods. Changed the parsing of the
+     arguments to rectify this. Some other functions also needed correction to handle this.
+
+Changes in Version 0.3-10
+
+   - Depends field in DESCRIPTION file updated to require R 2.15.0 or later.
+     (because of a few uses of paste0() in recent code.)
+
+Changes in Version 0.3-8
+
+   - first public version

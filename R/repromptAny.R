@@ -1,5 +1,5 @@
 reprompt <- function(object, infile = NULL, Rdtext = NULL, final = TRUE,
-                     type=NULL, package=NULL, methods,   #  for the call to promptMethods
+                     type=NULL, package=NULL, methods = NULL, #  for the call to promptMethods
                         verbose = TRUE, filename = NULL, sec_copy = TRUE, ...){
     objmis <- missing(object)
     tidyflag <- from_infile <- FALSE
@@ -52,7 +52,9 @@ reprompt <- function(object, infile = NULL, Rdtext = NULL, final = TRUE,
         if(verbose)
             cat("Trying a 'prompt' function to generate documentation for the object.\n")
 
-        res <- .capture_promptAny(fnam, final=final, methods=methods)  # pass here "..." arg.?
+                                                    # 2012-11-04 arg. type, package
+        res <- .capture_promptAny(fnam, type = type, package = package,
+                                  final=final, methods=methods)
 
         if(inherits(res,"try-error"))
             stop("unsuccessful attempt to create Rd doc. using a 'prompt' function.")
@@ -82,17 +84,50 @@ reprompt <- function(object, infile = NULL, Rdtext = NULL, final = TRUE,
                            # alternative. In that case the text is returned in a named list
                            # containing one element for each Rd section (multiple occurences
                            # of sections like '\alias' are grouped together.
-.capture_promptAny <- function(fnam, final, ..., methods){
-    if(grepl("^([^-]+)-.*", fnam)){                             # fnam is of the form xxxx-yyy
-        fname  <- gsub("^([^-]+)-.*", "\\1", fnam)
-        type   <- gsub("^([^-]+)-(.*)", "\\2", fnam)   # without "-"
-        ## suffix <- gsub("^([^-]+)(-.*)", "\\2", fnam)   # with "-"
-    }else{
-        fname <- fnam
-        type = ""
-    }
+                                                    # 2012-11-04 new arg. type, package
+.capture_promptAny <- function(fnam, type, package, final, ..., methods){
+              # 2012-11-04 promenyam za da raboti is replacement methods, e.g. "[<--methods"
+              #
+              # if(grepl("^([^-]+)-.*", fnam)){                 # fnam is of the form xxxx-yyy
+              #     fname  <- gsub("^([^-]+)-.*", "\\1", fnam)
+              #     type   <- gsub("^([^-]+)-(.*)", "\\2", fnam)   # without "-"
+              #     ## suffix <- gsub("^([^-]+)(-.*)", "\\2", fnam)   # with "-"
+              # }else{
+              #     fname <- fnam
+              #     type = ""
+              # }
+
+           # 2012-11-04 replacing with the code after the comments
+           #
+           # namreg <- "^(.+)-([^-]+)$"
+           # if(grepl(namreg, fnam)){           # fnam is of the form xxxx-yyy (non-empty rhs)
+           #     fname  <- gsub(namreg, "\\1", fnam)
+           #     namtype   <- gsub(namreg, "\\2", fnam)   # without "-"
+           #     ## suffix <- gsub("^([^-]+)(-.*)", "\\2", fnam)   # with "-"
+           # }else{
+           #     fname <- fnam
+           #     namtype = ""
+           # }
+
+    wrknam <- .parse_long_name(fnam)
+    fname <- wrknam["name"]
+    namtype <- wrknam["type"]
+
+    if(missing(type) || is.null(type))
+        type <- namtype
+    else if(namtype != ""  &&  !identical(type, namtype)){
+        cat("The name and type arguments give conflicting 'type' information.\n")
+        cat("\tUsing argument 'type'.\n")
+    }# else 'type'  has the value needed.
+
     wrk <- try(switch(type,
-                      methods = promptMethods(f=fname, filename = NA, methods=methods),
+                      methods = {
+                          if(is.null(methods) && !is.null(package))
+                              methods <- findMethods(fname, where = asNamespace(package))
+
+                          if(is.null(methods)) promptMethods(f=fname, filename = NA)
+                          else          promptMethods(f=fname, filename = NA, methods=methods)
+                      },
                       class   = promptClass(clName=fname, filename = NA),
                       package = promptPackageSexpr(fname, filename = NA),
                       ## default
@@ -154,7 +189,8 @@ reprompt <- function(object, infile = NULL, Rdtext = NULL, final = TRUE,
                          #      hlp <- help(paste(fnam, "-methods", sep=""), package=package)
                          # TODO: the last example in "help()" amy be helpful here.
                          #
-    fullname <- if(grepl("^([^-]+)-.*", fnam))   # fnam is of the form xxxx-yyy
+    namreg <- "^(.+)-([^-]+)$"                             # 2012-11-04 new namreg and related
+    fullname <- if(grepl(namreg, fnam))   # fnam is of the form xxxx-yyy
                     fnam
                 else if(!is.null(type) && is.character(type) && type!="")
                     paste(fnam, "-", type, sep="")
