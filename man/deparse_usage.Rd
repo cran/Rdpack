@@ -70,5 +70,5 @@ cat(as.character(utp[[2]]))   # same
 unlink(fnseq)
 }
 %\keyword{RdoProgramming}
-\keyword{Rdusage}
+\keyword{RdoUsage}
 %\keyword{RdFunction}

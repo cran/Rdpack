@@ -43,16 +43,20 @@ a3 <- char2Rdpiece("Dummy title", "title")
 a4 <- char2Rdpiece("Dummy description", "description")
 
 # The following are equivalent
-b1 <- c_Rd(Rdo_empty(), list(a1), list(a2), list(a3), list(a4))
-c1 <- c_Rd(Rdo_empty(), list(a1, a2, a3, a4))
-d1 <- c_Rd(Rdo_empty(), list(a1, a2), list(a3, a4))
-identical(c1,b1)
-identical(c1,d1)
-Rdo_show(b1)
+# TODO: replace Rdo_empty() below with a function from Rdpack
+#       and uncomment
+# b1 <- c_Rd(Rdo_empty(), list(a1), list(a2), list(a3), list(a4))
+# c1 <- c_Rd(Rdo_empty(), list(a1, a2, a3, a4))
+# d1 <- c_Rd(Rdo_empty(), list(a1, a2), list(a3, a4))
+# identical(c1,b1)
+# identical(c1,d1)
+# Rdo_show(b1)
 
 # insert a newline
-d1n <- c_Rd(Rdo_empty(), list(a1,a2), Rdo_newline(), list(a3,a4))
-str(d1n)
+# TODO: replace Rdo_empty() below with a function from Rdpack
+#       and uncomment
+# d1n <- c_Rd(Rdo_empty(), list(a1,a2), Rdo_newline(), list(a3,a4))
+# str(d1n)
 
 # When most of the arguments are character strings
 # the function 'list_Rd' may be more convenient.

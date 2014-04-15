@@ -1,3 +1,36 @@
+
+Changes in Version 0.4-8
+   - new  functions .whichtageq and .whichtagin; replaced most calls to toolsdotdotdotRdTags
+     with these.
+
+   - removed toolsdotdotdotRdTags
+
+Changes in Version 0.4-7
+   - removed ::: calls from code; copied some functions from `tools' to achieve this
+     (see threedots.R). Renamed the functions replacing  ::: with dotdotdot.
+
+   - export by name (not the generic export pattern); preparation for more selective export
+     of functions in the future.
+
+   - new functions: Rdo_get_argument_names, Rdo_get_item_labels
+
+Changes in Version 0.4-5
+   - dependence bibtex becomes "Imports".
+     tools and gbRd remain (for now) "Depends" since functions from them are used in some
+     examples without "require"'s.
+
+   - rebib: now outfile="" can be used to request overwriting infile.
+           (a small convenience; before the change, one could do this by
+           giving the outfile and infile the same values.)
+
+   - Bug fix: predefined.Rd contained \tabular environments with vertical bars, '|', in the
+     format specification. This is not documented in "Writing R exts" but works for LaTeX and
+     remained unnoticed by me and R CMD check. However, rendering the help page for the
+     objects documented in predefined.Rd gave an error in html and text mode.
+     Package installation failed only if html was requested at build time.
+
+   - small changes in the documentation
+
 Changes in Version 0.4-1
    - new major feature: processing references from Bibtex files.
      The top user level function is rebib(),  which updates

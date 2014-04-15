@@ -18,7 +18,12 @@ inspect_usage <- function(rdo){
 }                                                     # it may contain NULLs in some positions
 
 inspect_args <- function(rdo, i_usage){
-    argnames_rdo <- tools:::.Rd_get_argument_names(rdo)
+    argnames_rdo <- Rdo_get_argument_names(rdo)
+
+                                                                 # TODO: this is for testing!
+    # stopifnot(all( tools:::.Rd_get_argument_names(rdo) ==
+    #                Rdo_get_argument_names(rdo) ))
+
     if(missing(i_usage))
         i_usage <- inspect_usage(rdo)
 
@@ -35,7 +40,8 @@ inspect_args <- function(rdo, i_usage){
                                                                               # new 2012-09-22
 parse_text <- function(text, ...,  keep = TRUE){            # see comments in parse_usage_text
    ks <- options("keep.source")
-   if(identical(keep, ks)){
+   if(identical(keep, ks)){     # comment on 2014-03-28 : this condition will never be TRUE
+                                #                         since ks is named!
        res <- parse(text=text, ...)
    }else{
        options(keep.source = keep)

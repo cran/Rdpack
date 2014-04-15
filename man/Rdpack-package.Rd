@@ -23,6 +23,7 @@
    }
 
    Index:
+
   \Sexpr[stage=build,results=rd]{paste("\\\\preformatted{", paste(if(!is.null(lb$info[[2]])) lb$info[[2]] else "No entries",collapse="\\n"), "}", sep="")}
 
 
@@ -111,14 +112,15 @@
   (todo: give references here).
 
 
-  It can hardly get simpler than using a single function with one
-  argument (the doc file or the object to be updated) to update all
-  sorts of Rd documentation files. Some may find that this is all they
-  need and not bother with the rest of this documentation.
+  It can hardly get simpler than using a single function,
+  \code{reprompt}, with one argument (the doc file or the object to be
+  updated) to update all sorts of Rd documentation files. Some may find
+  that this is all they need and not bother with the rest of this
+  documentation.
 
 
   Other functions that may be useful are \code{Rdo2Rdf}, \code{Rdapply}
-  and \code{Rd_combo}. Here is also brrief information about some more
+  and \code{Rd_combo}. Here is also brief information about some more
   technical functions that may be helpful in certain circumstances.
 
   \code{\link{c_Rd}} concatenates Rd pieces, character strings and lists
@@ -178,50 +180,46 @@ Murdoch D (2010).
   \code{\link{rebib}}
 }
 \examples{
-# \dontrun{
 # The examples below show typical use.
 # Simply insert the path to your Rd file, the name of the object or the
 # object itself.
 # For executable examples see main functions,
 # reprompt and promptPackageSexpr
 
+\dontrun{
+# update the doc. from the Rd source and save myfun.Rd
+#     in the current directory (like prompt)
+reprompt(infile="path/to/mypackage/man/myfun.Rd")
 
-# # update the doc. from the Rd source and save myfun.Rd
-# #     in the current directory (like prompt)
-# reprompt(infile="path/to/mypackage/man/myfun.Rd")
+# update doc of myfun() from the installed doc (if any);
+#     if none is found, create it like prompt
+reprompt("myfun")
+reprompt(myfun)      # same
 
-# # update doc of myfun() from the installed doc (if any);
-# #     if none is found, create it like prompt
-# reprompt("myfun")
-# reprompt(myfun)      # same
+# update doc. for S4 methods from Rd source
+reprompt(infile="path/to/mypackage/man/myfun-methods.Rd")
 
-
-# # update doc. for S4 methods from Rd source
-# reprompt(infile="path/to/mypackage/man/myfun-methods.Rd")
-
-# # update doc. for S4 methods from installed doc (if any);
-# #     if none is found, create it like promptMethods
-# reprompt("myfun", type = "methods")
-# reprompt("myfun-methods")  # same
-
-
-# # update doc. for S4 class from Rd source
-# reprompt(infile="path/to/mypackage/man/myclass-class.Rd")
-
-# # update doc. of S4 class from installed doc.
-# #     if none is found, create it like promptClass
-# reprompt("myclass-class")
-# reprompt("myclass", type = "class")  # same
+# update doc. for S4 methods from installed doc (if any);
+#     if none is found, create it like promptMethods
+reprompt("myfun", type = "methods")
+reprompt("myfun-methods")  # same
 
 
-# # create a skeleton "mypackage-package.Rd"
-# promptPackageSexpr("mypackage")
-#
-# # update the references in "mypackage-package.Rd"
-# # rebib(infile="path/to/mypackage/man/mypackage-package.Rd", force=TRUE)
-# 
-# }
+# update doc. for S4 class from Rd source
+reprompt(infile="path/to/mypackage/man/myclass-class.Rd")
 
+# update doc. of S4 class from installed doc.
+#     if none is found, create it like promptClass
+reprompt("myclass-class")
+reprompt("myclass", type = "class")  # same
+
+
+# create a skeleton "mypackage-package.Rd"
+promptPackageSexpr("mypackage")
+
+# update the references in "mypackage-package.Rd"
+rebib(infile="path/to/mypackage/man/mypackage-package.Rd", force=TRUE)
+}
 }
 
 % # the usage of 'seq' has several entries, parse them all

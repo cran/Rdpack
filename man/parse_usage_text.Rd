@@ -60,4 +60,4 @@ parse_usage_text(text)
 
 % R documentation directory.
 
-\keyword{Rdusage}
+\keyword{RdoUsage}

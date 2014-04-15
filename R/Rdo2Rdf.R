@@ -61,8 +61,7 @@ Rdo2Rdf <- function(rdo, deparse = FALSE, ex_restore = FALSE, file = NULL, rcode
                    # be an `Rd' piece, not a whole Rd object or fragment.  In this way this
                    # function can be used for intermediate transformations.  Note though that
                    # print.Rd used below to produce the text output may be more picky.
-        tags <- tools:::RdTags(rdo)
-        indx <- which(tags == "\\examples")
+        indx <- Rdo_which_tag_eq(rdo, "\\examples")
         for(i in seq_along(indx)){
             if(!is.null(indx[[i]]))
                 rdo[[ indx[[i]] ]] <- .escape_bs_in_Rcode(rdo[[ indx[[i]] ]])
@@ -125,8 +124,7 @@ Rdo2Rdf <- function(rdo, deparse = FALSE, ex_restore = FALSE, file = NULL, rcode
 
         rdotxt <- rdo_text_restore(rdocur, rdoorig, srcrefpos, file=tfn)
 
-                                                                                  # 2012-10-14
-        nc_ind <- which(tools:::RdTags(rdoorig) %in% c("\\newcommand", "\\renewcommand"))
+        nc_ind <- Rdo_which_tag_in(rdoorig,  c("\\newcommand", "\\renewcommand"))
         if(length(nc_ind) > 0){
             nclines <- sapply(nc_ind, function(x) as.character(attr(rdoorig[[x]],"srcref")))
             rdotxt <- c(nclines, rdotxt) # put before anything else todo: could try to put at
@@ -160,8 +158,7 @@ Rdo2Rdf <- function(rdo, deparse = FALSE, ex_restore = FALSE, file = NULL, rcode
 }
 
 .rdo_srcref <- function(rdo, tag){  # todo: special cases!
-    tags <- tools:::RdTags(rdo)
-    pos <- which(tags == tag)
+    pos <- Rdo_which_tag_eq(rdo, tag)
     attr(rdo[[ pos[1] ]], "srcref")
 }
 

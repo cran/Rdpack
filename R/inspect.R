@@ -16,7 +16,7 @@ parse_Rdname <- function(rdo){  # 2012-10-01 todo: Rdpack-internal ste dade type
                            # 2012-10-01 otkomentiram tova, to raboteshe vyarno po sluchaynost!
                                         # (ponezhe gsub() po-dolu go prevrasta v character()!)
                                     # nam <- rdo[[ which( tools:::RdTags(rdo) == "\\name" ) ]]
-    ind <- which( tools:::RdTags(rdo) == "\\name" )
+    ind <- Rdo_which_tag_eq(rdo, "\\name")
     nam <- c( rdo[[ c(ind, 1) ]])  # assumes length(ind) == 1
             # 2012-11-04 changed with the code after the commented out section
             #
@@ -31,8 +31,9 @@ parse_Rdname <- function(rdo){  # 2012-10-01 todo: Rdpack-internal ste dade type
     wrknam <- .parse_long_name(nam)
     fname <- wrknam["name"]
     type <- wrknam["type"]
+                                                                           # malko kato krapka
+    doctype <- Rdo_which_tag_eq(rdo, "\\docType")
 
-    doctype <- which(tools:::RdTags(rdo) == "\\docType")    # malko kato krapka
     if(length(doctype) > 0  && type == "" ){  # todo: sravni s gornoto!
         type <- c( rdo[[ c(doctype[1],1) ]] ) # wrap n c() to remove attr.
     }
@@ -49,7 +50,7 @@ inspect_Rd <- function(rdo, package = NULL){                     # rdo: Rd objec
         return(structure(FALSE,
                         details = "inspect_Rd: 1st arg. must be an Rd object or filename."))
 
-    type <- tools:::.Rd_get_metadata(rdo,"docType")
+    type <- toolsdotdotdot.Rd_get_metadata(rdo,"docType")
     if(length(type) == 0){
         type <- parse_Rdname(rdo)$type     # todo: clean up
         if(!(type %in% c("package", "")))   # for now; there is, e.g. ts-methods which
@@ -109,7 +110,8 @@ inspect_Rdmethods <- function(rdo, package = NULL){                           # 
                             # since aliases may be mismatched by manual editing (or otherwise)
     rdo <- update_aliases_tmp(rdo, package = package)
 
-    if(any(tools:::RdTags(rdo) == "\\usage"))  # if "\\usage" section exists.
+                                                            # if "\\usage" section exists.
+    if(length(Rdo_which_tag_eq(rdo, "\\usage")) > 0)
         rdo <- inspect_Rdfun(rdo, alias_update = FALSE) # alias_update was added to Rd_fun
                                                         # to be used here
     rdo

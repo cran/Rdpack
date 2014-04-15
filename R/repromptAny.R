@@ -67,7 +67,8 @@ reprompt <- function(object, infile = NULL, Rdtext = NULL, final = TRUE,
 
     if(is.null(filename)){   # generate appropriate file name; todo: may need some mangling?
         filename <- if(is.null(infile))
-                         paste(res[[which( tools:::RdTags(res) == "\\name" )]], ".Rd", sep="")
+                         paste(res[[ Rdo_which_tag_eq(res, "\\name") ]],
+                               ".Rd", sep="")
                     else basename(infile)         # do not overwrite unless in the current dir
     }
                                                                         # todo: error checking
@@ -218,7 +219,7 @@ reprompt <- function(object, infile = NULL, Rdtext = NULL, final = TRUE,
         cat("length(hlpfile)>1, taking the first element.\n")
     }
 
-    try(utils:::.getHelpFile(hlpfile), silent=TRUE)
+    try(utilsdotdotdot.getHelpFile(hlpfile), silent=TRUE)
 }
 
                                  # 'usage' may be an "f_usage" object obtained e.g. by a

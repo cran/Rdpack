@@ -88,5 +88,5 @@ get_sig_text(rdo, package = "stats4")
 
 % R documentation directory.
 
-\keyword{RdS4}
+\keyword{RdoS4}
 %\keyword{RdoProgramming}

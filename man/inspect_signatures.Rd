@@ -71,5 +71,4 @@ inspect_signatures(rdo, package = NULL, sec = "Methods")
 
 % R documentation directory.
 
-\keyword{RdS4}
-%\keyword{RdoProgramming}
+\keyword{RdoS4}

@@ -26,6 +26,9 @@ inspect_Rdbib(rdo, force = FALSE, \dots)
   The user level function is \code{rebib}. It parses the Rd file
   \code{infile}, calls \code{inspect_Rdbib} to process the references,
   and writes the modified Rd object to file \code{outfile}.
+  If   \code{outfile} is missing it is set to the basename of
+  \code{infile}.  If \code{outfile} is the empty string, \code{""}, then
+  \code{outfile} is set to \code{infile}.
 
   The default Bibtex file is "REFERENCES.bib" in the current working
   directory. Arguments "\dots" can be used to change the name of the bib
@@ -38,7 +41,7 @@ inspect_Rdbib(rdo, force = FALSE, \dots)
   The following scheme is used by package Rdpack for incorporation of
   bibliographic references from BibTeX files.
 
-  The key for each reference is put in a comment line in the
+  The Bibtex key for each reference is put in a comment line in the
   references section, as in
   \preformatted{\references{
     \% bibentry: key1
@@ -48,10 +51,11 @@ inspect_Rdbib(rdo, force = FALSE, \dots)
     ...
   }
   }
+  At least one space after the colon, ':', is required, spaces before
+  "bibentry:" are ignored.
   Each reference is inserted immediately after the comment line
   specifying it and a matching comment line marking its end is
   inserted.
-
 
   Before inserting a reference, a check for the matching ending line is
   made, and if such a line is found, the reference is not inserted.
@@ -70,7 +74,7 @@ inspect_Rdbib(rdo, force = FALSE, \dots)
   used:
   \preformatted{\% bibentry:all
   }
-  Notice that there is no space after the colon.
+  Notice that there is no space after the colon in this case.
   In this case a marker is put after the last reference and the whole
   thing is considered one block.  So, if the end marker is present and
   \code{force} is FALSE, none will will be changed. Otherwise, if
@@ -104,11 +108,12 @@ inspect_Rdbib(rdo, force = FALSE, \dots)
 % %% ~~objects to See Also as \code{\link{help}}, ~~~
 % }
 \examples{
+\dontrun{
 # update references in all Rd files in the package's 'man' directory
 #
-# rdnames <- dir(path = "./man", pattern=".*[.]Rd$", full.names=TRUE)
-# lapply(rdnames, function(x) rebib(x, package="Rdpack"))
+rdnames <- dir(path = "./man", pattern=".*[.]Rd$", full.names=TRUE)
+lapply(rdnames, function(x) rebib(x, package="Rdpack"))
+}
 }
 \keyword{bibtex}
-\keyword{00Main}
-\keyword{RdoProgramming}
+\keyword{Rd}

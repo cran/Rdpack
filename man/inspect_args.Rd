@@ -69,5 +69,5 @@ inspect_args(rdo, i_usage)
 % R documentation directory.
 
 %\keyword{RdoProgramming}
-\keyword{Rdusage}
+\keyword{RdoUsage}
 %\keyword{RdFunction}

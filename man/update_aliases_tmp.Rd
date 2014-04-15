@@ -45,5 +45,5 @@ update_aliases_tmp(rdo, package = NULL)
 
 % R documentation directory.
 
-\keyword{RdS4}
+\keyword{RdoS4}
 

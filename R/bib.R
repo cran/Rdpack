@@ -29,6 +29,8 @@ rebib <- function(infile, outfile, ...){                     # 2013-03-29
 
     if(missing(outfile))
         outfile <- basename(infile)
+    else if(identical(outfile, ""))  # 2013-10-23 else clause is new
+        outfile <- infile
 
     rdo <- inspect_Rdbib(rdo, ...)
 
@@ -39,7 +41,9 @@ rebib <- function(infile, outfile, ...){                     # 2013-03-29
 
 
 inspect_Rdbib <- function(rdo, force = FALSE, ...){               # 2013-03-29
-    pos <- Rdo_locate_predefined_section(rdo, "\\references")
+                   # 2013-12-08 was: pos <- Rdo_locate_predefined_section(rdo, "\\references")
+    pos <- Rdo_which_tag_eq(rdo, "\\references")
+
     if(length(pos) > 1)
         stop(paste("Found", length(pos), "sections `references'.\n",
                    "There should be only one."
@@ -166,10 +170,5 @@ Rdo_flatinsert <- function(rdo, val, pos, before = TRUE){                       
            else              c( rdo[1:(pos-1)], val, rdo[pos:n])
     attributes(res) <- attributes(rdo)             # todo: more guarded copying of attributes?
     res
-}
-
-Rdo_locate_predefined_section <- function(rdo, sec){                       # 2013-03-29
-    pos <- which(tools:::RdTags(rdo) == sec) # todo: will this work if there are NULL RdTags?
-    pos
 }
 

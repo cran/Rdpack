@@ -9,7 +9,7 @@
 }
 
 .order_sections <- function(rdo){     # todo: take care of empty lines at top level.
-    old <- tools:::RdTags(rdo)
+    old <- Rdo_tags(rdo)
 
     n <- length(rdo)
     newpos <- numeric(n)
@@ -101,7 +101,7 @@ Rdo_empty_sections <- function(rdo, with_bs = FALSE){           # rdo is Rd obje
 Rdo_drop_empty <- function(rdo, sec = TRUE){ # todo: drop other empty things?
     emptysec <- Rdo_empty_sections(rdo, with_bs = TRUE)
 
-    rdotags <- tools:::RdTags(rdo)
+    rdotags <- Rdo_tags(rdo)
 
     stopifnot(length(rdotags) == length(rdo)) # paranoic; but tools:::RdTags above is
                                               # non-exported function
@@ -125,7 +125,7 @@ Rdo_set_section <- function(text, sec, file, ...){
                           # standard sections this is at the top level but for user defined
                           # sections it is deeper.  see also tools:::.Rd_get_section
 .locate_sec_content <- function(rdo, sec,  onlyone = TRUE){  # 2011-12-12 add 'more' arg.
-    tags <- tools:::RdTags(rdo)
+    tags <- Rdo_tags(rdo)
     indx_sec <- which(tags == sec) # in case this is a standard section, todo: do it properly!
 
     if(length(indx_sec) > 0){  # standard section

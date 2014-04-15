@@ -20,8 +20,11 @@ Rdo_locate_leaves(object, f = function(x) TRUE)
 
   This function provides a convenient way to locate leaves of an Rd
   object with a particular content. The function is not limited to Rd
-  objects but it assumes that the elements of object are either lists or
-  charater vectors and currently does not check if this is the case.
+  objects but it assumes that the elements of \code{object} are either
+  lists or charater vectors and currently does not check if this is the
+  case.
+
+  \strong{todo:} describe the case of \code{list()} (\code{Rd_tag}'ed.)
 }
 \value{
   a list of the positions of the leaves for which the predicate gives
@@ -51,6 +54,6 @@ length(nl)  # there are quite a few newline leaves!
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 %\keyword{Rdlookup}
-\keyword{RdoProgramming}
+\keyword{Rd}
 
 

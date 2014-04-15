@@ -31,20 +31,48 @@ rdo_top_tags
 \value{
   The format of \code{Rdo_predefined_sections} is:
   \Sexpr[stage=build,results=rd]{require(Rdpack);
-    paste("\\\\tabular{ll|lll}{",
+    paste(
+    "\\\\if{latex}{",
+    "\\\\tabular{ll|lll}{",
           paste(names(Rdo_predefined_sections)[1:5], Rdo_predefined_sections[1:5],
           " ",
           names(Rdo_predefined_sections)[-(1:5)], Rdo_predefined_sections[-(1:5)],
           sep=" \\\\tab ", collapse="\\\\cr\n"),
-          "}")}
+          "}",
+	  "}{",
+    "\\\\tabular{lllll}{",
+          paste(names(Rdo_predefined_sections)[1:5], Rdo_predefined_sections[1:5],
+          " | ",
+          names(Rdo_predefined_sections)[-(1:5)], Rdo_predefined_sections[-(1:5)],
+          sep=" \\\\tab ", collapse="\\\\cr\n"),
+          "}",
+
+	  "}"
+
+	  )}
 
   The format of \code{Rdo_piece_types} is:
 
   \Sexpr[stage=build,results=rd]{
-    paste("\\\\tabular{ll|ll|ll|ll|ll|ll}{",
+    paste(
+    "\\\\if{latex}{",
+    "\\\\tabular{ll|ll|ll|ll|ll|ll}{",
      paste(names(Rdo_piece_types), "\\\\tab ", Rdo_piece_types, c(rep("\\\\tab ",2),"\\\\cr"),
            sep="", collapse="\n"),
-          "}")}
+           "}",
+	   "}{",
+
+    "\\\\tabular{llllllllllll}{",
+    paste(names(Rdo_piece_types), "\\\\tab ", Rdo_piece_types,
+                                              c(rep(paste("\\\\tab ", "|", sep=""),2),
+					        "\\\\cr"),
+      sep="", collapse="\n"),
+           "}",
+
+
+	   "}"
+
+	)}
 
   The value of \code{rdo_top_tags} is:
 
@@ -54,4 +82,4 @@ rdo_top_tags
            sep="", collapse="\n"),
           "}")}
 }
-\keyword{RdoProgramming}
+\keyword{Rd}

@@ -3,7 +3,7 @@
 update_aliases_tmp <- function(rdo, package = NULL){#only for methods, currently; only appends
     fname <- .get.name_content(rdo)$short # name of the generic
 
-    rdoaliases <- tools:::.Rd_get_metadata(rdo, "alias")  # aliases currently in rdo
+    rdoaliases <- toolsdotdotdot.Rd_get_metadata(rdo, "alias")  # aliases currently in rdo
 
     curtxt <- get_sig_text(rdo, package = package)       # process signatures described in rdo
     ucur <- parse_usage_text(curtxt)

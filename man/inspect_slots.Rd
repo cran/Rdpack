@@ -24,6 +24,5 @@ inspect_slots(rdo, final = TRUE)
 }
 \author{Georgi N. Boshnakov}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
-\keyword{RdS4}
-%\keyword{RdoProgramming}
+\keyword{RdoS4}
 

@@ -19,8 +19,9 @@ Rdo_insert_element <- function(rdo, val, pos){
 }
 
 Rdo_get_insert_pos <- function(rdo, tag){
-    tags <- tools:::RdTags(rdo)
-    pos <- which(tags == tag)                 # todo: will this work if there are NULL RdTags?
+    tags <- Rdo_tags(rdo)
+    pos <- which(tags == tag)
+
     pos <- if(length(pos)>0)
                max(pos) + 1     # put after the last occurence of the same section
            else if(tag %in% .rd_sections){
@@ -72,7 +73,7 @@ Rdo_modify <- function(rdo, val, create=FALSE, replace=FALSE, top = TRUE){
         }
     }
 
-    pos <- which(tools:::RdTags(rdo) == sec) # todo: will this work if there are NULL RdTags?
+    pos <- Rdo_which_tag_eq(rdo, sec)
 
     if(length(pos)>0){
         if(is.character(replace)){    # the value to replace
@@ -102,10 +103,6 @@ Rdo_modify <- function(rdo, val, create=FALSE, replace=FALSE, top = TRUE){
 
 ## The 'locate_' family of functions finds (recursively) positions of elements of rdo objects.
 ## A position is a vector suitable for use in '[[' or a list of such vectors.
-
-.locate_item_label <- function(rdo, pos){#find the position of the label of the specified item
-    Rdo_locate_leaves(rdo[[pos]])[[1]]
-}
 
           # find the index the element enclosing rdo[[ind]] that has Rd_tag 'tag'.
           # (e.g. if rdo[[ind]] is an '\item', we may wish to grab the enclosing '\describe'.)
@@ -138,7 +135,7 @@ Rdo_modify <- function(rdo, val, create=FALSE, replace=FALSE, top = TRUE){
         rdo <- rdo[[indx1]]
     }
 
-    indx3 <- which(tools:::RdTags(rdo)==tag)
+    indx3 <- Rdo_which_tag_eq(rdo, tag)
     if(length(indx3)==0)
         return(integer(0))
 
@@ -151,7 +148,8 @@ Rdo_modify <- function(rdo, val, create=FALSE, replace=FALSE, top = TRUE){
     if(length(indx1) == 0)
         return(list())
 
-    indx2 <- which(tools:::RdTags(rdo[[indx1]])=="\\item")
+    indx2 <- Rdo_which_tag_eq(rdo[[indx1]], "\\item")
+
     res <- lapply( indx2, function(x) c(indx1, x))               # returns a list of positions
 
              # todo: item labels (i.e., the 1st arg. of \item) may be long, is this a problem?
@@ -191,8 +189,13 @@ Rdo_modify <- function(rdo, val, create=FALSE, replace=FALSE, top = TRUE){
 }
 
 .get_item_label <- function(rdo, pos){
-    indx <- c(pos, .locate_item_label(rdo, pos))
-    rdo[[indx]]                                     # todo: check that the result is a string?
+                 # 2013-12-01 no need of looking for leaves after introducing .ascharRd()
+                 #         indx <- c(pos, .locate_item_label(rdo, pos))
+                 #         res <- rdo[[indx]]
+    indx <- c(pos, 1)
+    res <- .ascharRd(rdo[[indx]])
+
+    res
 }
 
                                        # 'labels' is a logical or a character vector of labels
@@ -210,7 +213,7 @@ Rdo_modify <- function(rdo, val, create=FALSE, replace=FALSE, top = TRUE){
                         # todo: this is very similar to parse_Rdname
                         #       2012-11-04 partly done, introduced function .parse_long_name()
 .get.name_content <- function(rdo){      # todo: error processing             Rd section \name
-    name <- rdo[[which( tools:::RdTags(rdo) == "\\name" )]]
+    name <- rdo[[ Rdo_which_tag_eq(rdo, "\\name") ]]
                                    # 2012-11-04   # dropping "-methods" or similar, if present
                                                   # short <- gsub("^([^-]+)-.*", "\\1", name)
     short <- .parse_long_name(name)["name"]
@@ -249,7 +252,7 @@ get_usage_text <- function(rdo){        #    ut <- get_usage_text("../gbRd/man/R
                     # todo: maybe the following 3 lines would be more generally useful?
 
                                         #2012-10-04 drop comments and specials
-    rdo_u <- tools:::.Rd_drop_nodes_with_tags(rdo[[pos]], c("COMMENT","\\special"))
+    rdo_u <- toolsdotdotdot.Rd_drop_nodes_with_tags(rdo[[pos]], c("COMMENT","\\special"))
 
     wrk <- structure(rdo_u, Rd_tag = "Rd")
     class(wrk) <- "Rd"
@@ -283,3 +286,19 @@ Rdo_collect_aliases <- function(rdo){
 
     res
 }
+
+                                               # 2013-12-02 derived from Rdo_collect_aliases()
+Rdo_collect_metadata <- function(rdo, sec){   #sec is "alias", "keyword" or similar simple one
+    secname <- paste0("\\", sec)
+    pos <- Rdo_locate(rdo, function(x) .tag_eq(x, secname), lists=TRUE)
+    res <- sapply(pos, function(x) as.character(rdo[[ x ]]))
+    nams <- sapply(pos, function(x){
+                           if( length(x) == 1) ""
+                           else    # 2012-10-13 as.character(rdo[[ c(x[1:(length(x)-2)],1) ]])
+                               as.character(rdo[[ c(x[seq_len(length(x)-2)],1) ]])
+                        })
+    names(res) <- gsub("[ \n]" , "", nams)
+
+    res
+}
+

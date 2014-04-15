@@ -98,6 +98,7 @@ Rdtagapply <- function(object, FUN, rdtag, classes = "character", how = "replace
     }
 }
 
+
 .aux_Rdo_locate_leaves <- function(x, i){
     if(is.logical(x)){
         if(isTRUE(x))
@@ -108,6 +109,7 @@ Rdtagapply <- function(object, FUN, rdtag, classes = "character", how = "replace
         lapply(x, function(x){ c(i,x)})
     }
 }
+
                               # inn1 <- parse_Rd("inner-methods.Rd")
                               # Rdo_locate_leaves(inn1, function(x) grepl("^signature\\(", x))
 Rdo_locate_leaves <- function(object, f = function(x) TRUE){
@@ -227,9 +229,10 @@ Rdo_locate <- function(object, f = function(x) TRUE, pos_only = TRUE, lists = FA
    c(x, list(sep))[indx]
 }
 
-.Rd_tidy <- function(rdo){           # todo: optionally remove empty sections?
-    tags <- tools:::RdTags(rdo)      # todo: remove multiple empty lines?
-    secpos <- which(tags != "TEXT")  #       remove empty lines at top level?
+.Rd_tidy <- function(rdo){                           # todo: optionally remove empty sections?
+    tags <- Rdo_tags(rdo)                              # todo: remove multiple empty lines?
+    secpos <- which(tags != "TEXT")                   #       remove empty lines at top level?
+
     secpos <- secpos[secpos > 1]
     if(length(secpos)==0)
         return(rdo)

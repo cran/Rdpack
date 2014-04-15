@@ -68,5 +68,5 @@ format_funusage(x, name = "", width = 72, realname)
 # see deparse_usage1 and as.character.f_usage which use it.
 }
 %\keyword{RdoProgramming}
-\keyword{Rdusage}
+\keyword{RdoUsage}
 %\keyword{RdFunction}

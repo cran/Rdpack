@@ -81,6 +81,4 @@ compare_usage1(urdo, ucur)
 
 % R documentation directory.
 
-%\keyword{RdoProgramming}
-\keyword{Rdusage}
-%\keyword{RdFunction}
+\keyword{RdoUsage}

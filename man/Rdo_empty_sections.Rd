@@ -70,5 +70,5 @@ Rdo_empty_sections(rdo8a)       # character(0)
 % R documentation directory.
 
 %\keyword{Rdprocessing}
-\keyword{Rd}
+\keyword{RdoBuild}
 

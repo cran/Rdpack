@@ -67,5 +67,5 @@ cat(ut,sep = "\n")
 % R documentation directory.
 
 %\keyword{RdoProgramming}
-\keyword{Rdusage}
+\keyword{RdoUsage}
 %\keyword{RdFunction}

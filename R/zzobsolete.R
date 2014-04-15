@@ -1,3 +1,74 @@
+# 2013-12-08 removed.
+#     The name of the function (with this implementation) is misleading
+#     since other "locate" functions look recurisvely.
+#
+# Rdo_locate_predefined_section <- function(rdo, sec){                       # 2013-03-29
+#     Rdo_which_tag_eq(rdo, sec)
+# }
+
+# ## > tools:::RdTags
+# toolsdotdotdotRdTags <-
+# function (Rd)
+# {
+#     res <- sapply(Rd, attr, "Rd_tag")
+#     if (!length(res))
+#         res <- character()
+#     res
+# }
+                                                                         # removed: 2013-12-01
+# .aux_Rdo_locate_leaves2 <- function(x, i){                                  #new: 2013-11-28
+#
+#     if(is.logical(x)){
+#         if(isTRUE(x))
+#             i
+#         else
+#             FALSE
+#     }else if(is.list(x) && length(x)==0){        # :TODO: 2013-11-28 VERY dangewroug change!
+#                                        # arguments section: has list() with Rd_Tag = "\dots"
+#         i     # consider the empty list a leave!
+#
+#     }else{     # here x is a list of integer vectors
+#         lapply(x, function(x){ c(i,x)})
+#     }
+# }
+#
+# Rdo_locate_leaves2 <- function(object, f = function(x) TRUE){
+#     fxx <- function(x){
+#         if(is.character(x)){
+#             return(f(x))         # evaluate `f' for this leaf
+#         }else if(is.list(x)){
+#             if(length(x)==0)   # list()
+#                 return(x)
+#             wrk <- lapply(x, fxx)
+#             for(i in seq_along(wrk))
+#                 wrk[[i]] <- .aux_Rdo_locate_leaves2(wrk[[i]], i)
+#             indx <- sapply(wrk, function(y) !identical(y,FALSE) )
+#             wrk <- wrk[indx]
+#             for(i in seq_along(wrk))  # 2013-11-28 :TODO: krapka!!!
+#                 if(is.list(wrk[[i]]) && length(wrk[[i]])==0){
+#                     va <- attr(wrk[[i]], "Rd_tag")
+#                     if(!is.null(va))
+#                         wrk[[i]] <- attr(wrk[[i]], "Rd_tag")
+#                 }
+#
+#             wrk <- do.call("c",wrk)
+#             return(wrk)
+#         }else{
+#             return(FALSE)     # todo: replace this with a function and additional argument
+#         }
+#     }
+#
+#     fxx(object)
+# }
+
+# removed: 2013-12-01
+# .locate_item_label <- function(rdo, pos){#find the position of the label of the specified item
+#     # 2013-11-28 "\\dots" in "\\ arguments":  Rdo_locate_leaves(rdo[[pos]])[[1]]
+#     # 2013-12-01 was: Rdo_locate_leaves2(rdo[[pos]])[[1]]
+#     #            this function became redundant after starting to use .ascharRd()
+#     1
+# }
+
 ### 2013-04-09 macham fromgbRd.R - izglezhda nisto ne se izpolzva veche.
                                                                  ####### begin file fromgbRd.R
 # strRd <- function(rdo, indent = "\t", verbose_blanks = FALSE, omit_blanks = FALSE){

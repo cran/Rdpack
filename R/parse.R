@@ -39,7 +39,7 @@ parse_Rdpiece <- function(x, result=""){
     if(result=="text"){                                             # Rd_help2txt is from gbRd
         res <- Rd_help2txt(wrk, keep_section="\\note", omit_sec_header=TRUE)
     }else{
-        indx <- which( tools:::RdTags(wrk) == "\\note" )
+        indx <- Rdo_which_tag_eq(wrk, "\\note")
         res <- wrk[[indx]]
         if(!is.null(attr(res,"Rd_tag")))
             attr(res,"Rd_tag") <- NULL

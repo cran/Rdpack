@@ -65,5 +65,5 @@ inspect_usage(rdo)
 % R documentation directory.
 
 %\keyword{ ~kwd1 }
-\keyword{Rdusage}
+\keyword{RdoUsage}
 %\keyword{RdFunction}
