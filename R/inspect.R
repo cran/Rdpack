@@ -89,10 +89,29 @@ inspect_Rdclass <- function(rdo){                                             # 
 inspect_Rdmethods <- function(rdo, package = NULL){                           # rdo: Rd object
     i_usage <- inspect_signatures(rdo, package = package)                # i_usage$added_sig
                                                                          # i_usage$removed_sig
-    if(i_usage$changed){
+    if(i_usage$changed)
         cat("\tMethods in the documentation are not the same as the current ones.\n")
-        if(length(i_usage$added_sig) > 0)
-            cat("\tAppending new signatures to section \"Methods\"\n")
+
+             # 2014-08-23 new 'if' to tell the user to removed the doc. of non-existen methods
+    if(length(i_usage$removed_sig) > 0){
+        cat("\tMethods for the following signatures ",
+            "where not found", if(is.null(package)) ""
+                                 else paste0(" in package ", package)
+            , ":\n", sep = "")
+        for( sigus in i_usage$removed_sig){
+            txt <- paste(sigus$argnames, sigus$defaults, collapse = ",\t", sep = " = ")
+            cat("\t  ", txt, "\n")
+        }
+                                    # 2014-08-23 todo: maybe give a more cautious advice here?
+        cat("\tPlease remove these from the documentation.\n\n")
+    }
+
+    if(length(i_usage$added_sig) > 0){
+        cat("\tAppending new signatures to section \"Methods\"\n")
+
+        ## 2014-08-23 TODO:
+        ##       the code below now is executed only when  length(i_usage$added_sig) > 0;
+        ##       before it was executed whenever i_usage$changed was TRUE.
 
         newsigs <- sapply(i_usage$added_sig, function(x) deparse_usage1(x))
         wrk <- lapply(c(newsigs), Rdo_sigitem)   # todo: slozhi blank line predi vseki item,

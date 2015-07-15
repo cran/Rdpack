@@ -1,3 +1,29 @@
+Changes in Version 0.4-18 (CRAN)
+
+   - from now on, put (CRAN) next to versions published on CRAN (as above)
+
+   - a minor correction in file NEWS
+
+
+Changes in Version 0.4-17 
+
+   - In file DESCRIPTION, changed reprompt and rebib to reprompt() and rebib().
+
+
+Changes in Version 0.4-16 
+
+   - don't export parse_text
+
+   - corrected bug in reprompt for S4 classes - new slots were not handled correctly (see
+     slots.R for details).
+
+   - reprompt for S4 methods - if the methods documentation describes methods that do not
+     exist, print an informative message for the user. (Such methods are also printed for
+     debugging purposes but in non-user friendly form.)
+
+   - included 'methods' in imports - around R-devel (2015-07-01 r68620) not including it
+     triggers warnings)
+
 
 Changes in Version 0.4-8
    - new  functions .whichtageq and .whichtagin; replaced most calls to toolsdotdotdotRdTags
