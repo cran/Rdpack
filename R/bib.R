@@ -18,7 +18,11 @@ get_bibentries <- function(..., package = NULL, bibfile = "REFERENCES.bib"){    
         fn <- fn[1]
     }
     res <- read.bib(file=fn, package=package)
-    names(res) <- sapply(1:length(res), function(x) bibentry_key(res[[x]][[1]]))
+    ## 2016-07-26 Now do this only for versions of  bibtex < '0.4.0'.
+    ##            From bibtex '0.4.0' read.bib() sets the names.
+    if(packageVersion("bibtex") < '0.4.0'){
+        names(res) <- sapply(1:length(res), function(x) bibentry_key(res[[x]][[1]]))
+    }
 
     res
 }
@@ -133,8 +137,8 @@ inspect_Rdbib <- function(rdo, force = FALSE, ...){               # 2013-03-29
                 rdo[[pos]] <- Rdo_flatremove(rdo[[pos]], poskey+1, endposkey)
             }
 
-            if(!keyflag || force){ # this is always TRUE here but is left for cmmong look
-                                   # with "all". todo: needs consolodation
+            if(!keyflag || force){ # this is always TRUE here but is left for common look
+                                   # with "all". todo: needs consolidation
                 rdo[[pos]] <- Rdo_flatinsert(rdo[[pos]], list(endbibline), poskey,
                                              before = FALSE)
                 rdo[[pos]] <- Rdo_flatinsert(rdo[[pos]], bibstxt, poskey,
@@ -171,4 +175,28 @@ Rdo_flatinsert <- function(rdo, val, pos, before = TRUE){                       
     attributes(res) <- attributes(rdo)             # todo: more guarded copying of attributes?
     res
 }
+
+
+## additions on 2016-07-24 and later (all code to the end of this file)
+
+## TODO: auto-deduce 'package'?
+insert_ref <- function(key, package = NULL, ...) { # bibfile = "REFERENCES.bib"
+    if(is.null(package))
+        stop("argument 'package' must be provided")
+
+    ## leave this to read.bib()
+    ##     bibfile <- system.file(bibfile, package = package, mustWork = TRUE)
+
+    ## TODO: "names<-()" may change some keys since bibtex keys are not necessarilly R
+    ##       syntactic names.
+    bibs <- read.bib(package = package, ...)
+    if(packageVersion("bibtex") < '0.4.0'){
+        names(bibs) <- sapply(1:length(bibs), function(x) bibentry_key(bibs[[x]][[1]]))
+    }
+
+    wrk <- toRd(bibs[[key]]) # TODO: add styles? (doesn't seem feasible here)
+    ## paste0(wrk, "\n")
+}
+
+
 

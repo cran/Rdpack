@@ -27,7 +27,7 @@
   \Sexpr[stage=build,results=rd]{paste("\\\\preformatted{", paste(if(!is.null(lb$info[[2]])) lb$info[[2]] else "No entries",collapse="\\n"), "}", sep="")}
 
 
-  Package \code{Rdpack} may be help authors of \R packages to keep their
+  Package \code{Rdpack} may help authors of \R packages to keep their
   documentation up to date during development.  Although base R and
   package \code{methods} have functions for creation of skeleton
   documentation, if a function gets a new argument or a generic gets a
@@ -42,8 +42,14 @@
   references.
 
   The main functions provided by this package are
-    \code{\link{reprompt}}, \code{\link{promptPackageSexpr}}, and
-    \code{\link{rebib}}.
+  \code{\link{reprompt}}, \code{\link{promptPackageSexpr}}, and
+  \code{\link{rebib}}.
+
+  \strong{NEW:} References are most easily inserted with the help of the
+  macro \code{\\insertRef{key}{package}}. This facility works in Rd
+  files and roxygen comments and needs only an entry in the DESCRIPTION
+  file of the package, see \code{\link{insertRef}} and the vignette for
+  details and examples.
 
 
   \code{\link{reprompt}} produces a skeleton documentation for the
@@ -145,15 +151,10 @@
 Maintainer: \Sexpr[stage=build]{pd$Maintainer}
 }
 \references{
-  % bibentry:all
-Francois R (2011).
-\emph{bibtex: bibtex parser}.
-R package version 0.3-0, \url{http://CRAN.R-project.org/package=bibtex}.
+  \insertRef{Rpack:bibtex}{Rdpack}
 
-Murdoch D (2010).
-``Parsing Rd files.''
-\url{http://developer.r-project.org/parseRd.pdf}.
-% end:bibentry:all
+  \insertRef{parseRd}{Rdpack}
+
 }
 \note{
   All processing is done on the parsed Rd objects, i.e. objects of class

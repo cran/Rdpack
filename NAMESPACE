@@ -21,6 +21,7 @@ export(
 , get_sig_text
 , get_usage
 , get_usage_text
+, insert_ref
 , inspect_args
 , inspect_clmethods
 , inspect_Rd

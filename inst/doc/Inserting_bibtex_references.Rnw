@@ -1,0 +1,95 @@
+% preamble taken from the vignette in package strucchange
+%
+\documentclass[10pt,a4paper]{article}
+\usepackage{a4wide}
+\usepackage{graphicx,color,alltt}
+\usepackage[authoryear,round,longnamesfirst]{natbib}
+\usepackage{hyperref}
+
+\definecolor{Red}{rgb}{0.7,0,0}
+\definecolor{Blue}{rgb}{0,0,0.8}
+\definecolor{hellgrau}{rgb}{0.55,0.55,0.55}
+
+\newcommand{\E}{\mbox{$\mathsf{E}$}}
+\newcommand{\VAR}{\mbox{$\mathsf{VAR}$}}
+\newcommand{\COV}{\mbox{$\mathsf{COV}$}}
+\newcommand{\p}{\mbox{$\mathsf{P}$}}
+\newcommand{\email}[1]{\href{mailto:#1}{\normalfont\texttt{#1}}}
+\newenvironment{smallexample}{\begin{alltt}\small}{\end{alltt}}
+
+\setlength{\parskip}{0.5ex plus0.1ex minus0.1ex}
+\setlength{\parindent}{0em}
+
+\bibpunct{(}{)}{;}{a}{}{,}
+
+\newcommand{\ui}{\underline{i}}
+\newcommand{\oi}{\overline{\imath}}
+
+\RequirePackage{color}
+\definecolor{Red}{rgb}{0.5,0,0}
+\definecolor{Blue}{rgb}{0,0,0.5}
+\definecolor{hellgrau}{rgb}{0.55,0.55,0.55}
+
+\hypersetup{%
+hyperindex,%
+colorlinks,%
+linktocpage,%
+plainpages=false,%
+linkcolor=Blue,%
+citecolor=Blue,%
+urlcolor=Red,%
+pdfstartview=Fit,%
+pdfview={XYZ null null null}%
+}
+
+
+\begin{document}
+
+\SweaveOpts{engine=R,eps=FALSE}
+%\VignetteIndexEntry{Inserting references in Rd and roxygen documentation}
+%\VignetteDepends{Rdpack}
+%\VignetteKeywords{bibtex, Rd format, Rd documentation, roxygen documentation}
+%\VignettePackage{Rdpack}
+
+\title{Inserting references in Rd and roxygen documentation}
+\author{Georgi N. Boshnakov}
+\date{}
+\maketitle
+
+%\begin{abstract}
+%\end{abstract}
+%
+%\noindent
+%{\bf Keywords:} structural change, CUSUM, MOSUM, recursive estimates, moving
+%estimates, monitoring, \textsf{R}, \textsf{S}.\\
+
+
+Package \verb+"Rdpack"+ provides a straightforward way to insert BibTeX references in the
+documentation of an R package, using a feature introduced in R~3.2.0.
+
+To use this mechanism in your package: %, do the following preparations:
+\begin{enumerate}
+\item 
+add the following line to file `DESCRIPTION':
+\begin{verbatim}
+RdMacros: Rdpack
+\end{verbatim}
+(If the field 'RdMacros' is already present, add Rdpack to the list on that line.)
+
+\item 
+  Create file \verb+REFERENCES.bib+ in  subdirectory \verb+inst/+ of your package
+  and put the bibtex references in it. 
+
+\end{enumerate}
+
+Then you can insert references in the documentation with \verb+\insertRef{key}{package}+,
+where \verb+key+ is the bibtex key of the reference and \verb+package+ is your package.
+
+This works in manually written Rd files and in roxygen documentation chunks. 
+
+%\paragraph*{Note:}
+The references are processed when the package is built. So, there is \emph{no need} to
+depend/import/suggest package \verb+"Rdpack"+, it only needs to be installed on your machine.
+
+
+\end{document}

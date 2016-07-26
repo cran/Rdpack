@@ -1,3 +1,20 @@
+Changes in Version 0.4-20 (CRAN)
+
+   - cleaned up some minor CRAN issues.
+
+
+Changes in Version 0.4-19
+
+   - new facility for inserting references from BibTeX files - just put the line:
+
+        RdMacros: Rdpack
+
+    in the DESCRIPTION file of your package and the references in inst/REFERENCES.bib.
+    Then put \inserRef{key}{yourpackage} in documentation chunks to insert item
+    'key' from the bib file. This works with both manually created Rd files and
+    roxygen comments, see the documentation for details.
+
+
 Changes in Version 0.4-18 (CRAN)
 
    - from now on, put (CRAN) next to versions published on CRAN (as above)
@@ -5,12 +22,12 @@ Changes in Version 0.4-18 (CRAN)
    - a minor correction in file NEWS
 
 
-Changes in Version 0.4-17 
+Changes in Version 0.4-17
 
    - In file DESCRIPTION, changed reprompt and rebib to reprompt() and rebib().
 
 
-Changes in Version 0.4-16 
+Changes in Version 0.4-16
 
    - don't export parse_text
 
