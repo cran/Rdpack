@@ -1,3 +1,13 @@
+Changes in Version 0.4-21
+
+   - Edited and amended vignette "Inserting_bibtex_references", including:
+       - additional explanation and an example,
+       - requirement to import Rdpack and a mention of travis etc.
+       - paragraph about devtools.
+
+   - changed the URL for parse_Rd.pdf in REFERENCES.bib to https.
+
+
 Changes in Version 0.4-20 (CRAN)
 
    - cleaned up some minor CRAN issues.

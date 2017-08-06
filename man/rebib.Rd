@@ -51,8 +51,13 @@ inspect_Rdbib(rdo, force = FALSE, \dots)
     ...
   }
   }
+
   At least one space after the colon, ':', is required, spaces before
   "bibentry:" are ignored.
+
+  Then run \code{rebib()} on the file, see the exmple section for a way
+  to run \code{rebib()} on all files in one go.
+
   Each reference is inserted immediately after the comment line
   specifying it and a matching comment line marking its end is
   inserted.
