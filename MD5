@@ -1,6 +1,6 @@
-3b6adf8afc9c15358e09d1b7192c33f6 *DESCRIPTION
+7b480909296d3c74050beda15448f981 *DESCRIPTION
 e5563fd0aced564d7b1d6b389f79b5c8 *NAMESPACE
-c325b3943320a1cc28191ddeed3b51e4 *NEWS
+d364054048eb555e07861eee96332099 *NEWS
 f7125e2a254d2186beaaa67f02dc2f1b *R/Rdo2Rdf.R
 175b8213a9dcb19a7bf332c5b594dfce *R/alias.R
 785d0819d40551aef87b435e86973aad *R/bib.R
@@ -20,13 +20,13 @@ eb7063e7c8a5bdd6cd485c50c6b9fdf3 *R/usage.R
 1053659b5b9d3137d863e280ef140a5d *R/utils.R
 01dfff4dd7db657de6e5e150af71ed63 *R/yytransient.R
 94b75927ab9efaed1ea833bef0d8108f *R/zzobsolete.R
-c8185f854c0657c858c6ab9658e88748 *build/partial.rdb
-1f67de29204534ec68e94d9ba9542d1b *build/vignette.rds
+e4f1bbedf46e57c25836aac4633ff46b *README.md
+0c738e12751ce5677a0803394a2a2807 *build/partial.rdb
+e1ce8e76c7684f0f8e3b917655deb217 *build/vignette.rds
 c9df2242f51ea72853681605ca94661d *inst/REFERENCES.bib
-685664055bd516c97b1b927714afef04 *inst/auto/REFERENCES.el
 bd684608e07030e0385eba4f49eae993 *inst/doc/Inserting_bibtex_references.R
-1cbddde68e584d13c83393e3544eeed2 *inst/doc/Inserting_bibtex_references.Rnw
-d7167ccb529d0a61a81c5be87c1b24f0 *inst/doc/Inserting_bibtex_references.pdf
+66b041e41ab7c1ec290427dba82b6bac *inst/doc/Inserting_bibtex_references.Rnw
+b0a69f19391b1f0cdc79372c4b0c96b2 *inst/doc/Inserting_bibtex_references.pdf
 d605b1017744a80f4734be8ba1a21989 *man/Rd_combo.Rd
 fe493e78fed8204471cd438a4c6987c4 *man/Rd_remove_srcref.Rd
 ef2ab9b32ef0454a1b358cde2bf25198 *man/Rdapply.Rd
@@ -67,7 +67,7 @@ ade6c245a755fd4573de81bb1d2f8b6f *man/format_funusage.Rd
 b0e7e426115aa0f9919bfd5aa5bea09f *man/get_bibentries.Rd
 320da073cc9085e3c4d59741d0f87105 *man/get_sig_text.Rd
 e118ea24ee1d5fbee8be99147ea6cbe8 *man/get_usage_text.Rd
-b94462b5ff12ecc45550c6fe2cc7c925 *man/insert_ref.Rd
+d8901fb43611a304225899d7f3f9dcf0 *man/insert_ref.Rd
 2d7a8a0acf153f2929ea554d84b9f123 *man/inspect_Rd.Rd
 0f78e11544d2eddc788b58af33f35467 *man/inspect_args.Rd
 4131b21fddf9840db8089a45857c3c29 *man/inspect_signatures.Rd
@@ -91,6 +91,5 @@ ac57ae3d623f33f3c99b271c7f80eed2 *man/reprompt.Rd
 31156b01cabc9af9959e2d3459e0a330 *man/zzasym_compare.Rd
 9ac67aad2afe6802a2de6be347826377 *man/zzbsdup.Rd
 bcf593702882d3784668c0f51ee2b98b *man/zzcapture_promptany.Rd
-1cbddde68e584d13c83393e3544eeed2 *vignettes/Inserting_bibtex_references.Rnw
-576fb97bc4738023699181bd94027552 *vignettes/Inserting_bibtex_references.tex
-3c7301bbd7290b9579375077518fce1d *vignettes/auto/Inserting_bibtex_references.el
+66b041e41ab7c1ec290427dba82b6bac *vignettes/Inserting_bibtex_references.Rnw
+c01cf9565a24eb81c36b844775969aeb *vignettes/auto/Inserting_bibtex_references.el
