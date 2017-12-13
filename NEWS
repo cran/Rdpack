@@ -1,3 +1,25 @@
+Changes in Version 0.5-1
+
+   - an example was not restoring the working directory.
+
+
+Changes in Version 0.5-0
+
+   - moved gbRd from Depends to Imports and adjusted some examples to use
+     tools::parse_Rd() rather than parse_Rd() (before this was not necessary
+     since 'gbRd' Depends on 'tools').
+
+
+Changes in Version 0.4-23
+
+   - new function viewRd() parses and shows an Rd file in a source package.
+     May be particularly helpful for devtools developers.
+
+   - revamped the vignette, added additional explanations of possible issues.
+
+   - new functions makeVignetteReference() and vigbib() generate Bibtex
+     references for vignettes in a package.
+
 Changes in Version 0.4-22
 
    - Added the requirement to Import Rdpack to the help page of insert_ref().

@@ -50,7 +50,7 @@ setwd(tempdir())
 fnseq <- reprompt(seq)
 
 # let's parse the saved Rd file
-rdoseq <- parse_Rd(fnseq)
+rdoseq <- tools::parse_Rd(fnseq)
 
 # the usage of 'seq' has several entries, parse them all
 
@@ -68,6 +68,7 @@ cat(as.character(utp[[2]]))   # same
 
 
 unlink(fnseq)
+setwd(cur_wd)
 }
 %\keyword{RdoProgramming}
 \keyword{RdoUsage}
