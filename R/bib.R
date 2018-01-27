@@ -193,9 +193,61 @@ insert_ref <- function(key, package = NULL, ...) { # bibfile = "REFERENCES.bib"
     if(packageVersion("bibtex") < '0.4.0'){
         names(bibs) <- sapply(1:length(bibs), function(x) bibentry_key(bibs[[x]][[1]]))
     }
+        # 2018-01-25: was:
+        #     wrk <- toRd(bibs[[key]]) # TODO: add styles? (doesn't seem feasible here)
+        # adding a check to give user more informative message (than 'key out of bounds')
 
-    wrk <- toRd(bibs[[key]]) # TODO: add styles? (doesn't seem feasible here)
-    ## paste0(wrk, "\n")
+    ## Catch the warning only if length(key) == 1, since otherwise it would be better to process
+    ## the remaining keys anyway
+    ##
+    ## TODO: on the other hand, the function is documented to work for one key,
+    ##       maybe check this? Alternatively, document that more keys are acceptable.
+
+        # item <- if(length(key) == 1){
+        #             tryCatch(bibs[[key]],
+        #                      warning = function(c) {
+        #                          ## tell the user the offending key.
+        #                          s <- paste0("possibly non-existing key '", key, "'")
+        #                          c$message <- paste0(c$message, " (", s, ")")
+        #                          warning(c)
+        #                          res <- paste0("\nInserting reference '", key,
+        #                                        "' from package '", package, "' - ",
+        #                                        s, ".\n")
+        #                          return(res)
+        #                      })
+        #         }else{
+        #             bibs[[key]]
+        #         }
+
+    if(length(key) == 1){
+        item <- tryCatch(bibs[[key]],
+                         warning = function(c) {
+                             ## tell the user the offending key.
+                             s <- paste0("possibly non-existing key '", key, "'")
+                             c$message <- paste0(c$message, " (", s, ")")
+                             warning(c)
+                             res <- paste0("\nWARNING: failed to insert reference '", key,
+                                           "' from package '", package, "' - ",
+                                           s, ".\n")
+                             return(res)
+                         })
+
+        toRd(item) # TODO: add styles? (doesn't seem feasible here)
+    }else{
+        ## key is documented to be of length one, nevertheless handle it too
+        kiki <- FALSE
+        items <- withCallingHandlers(bibs[[key]], warning = function(w) {kiki <<- TRUE})
+        txt <- toRd(items)
+
+        if(kiki){ # warning(s) in bibs[[key]]
+            s <- paste0("WARNING: failed to insert ",
+                        "one or more of the following keys in REFERENCES.bib:\n",
+                        paste(key, collapse = ", \n"), ".")
+            warning(s)
+            txt <- c(txt, s)
+        }
+        paste0(paste(txt, collapse = "\n\n"), "\n")
+    }
 }
 
 
@@ -342,9 +394,3 @@ makeVignetteReference <- function(package, vig = 1, verbose = TRUE,
     }
     res
 }
-
-
-
-
-
-
