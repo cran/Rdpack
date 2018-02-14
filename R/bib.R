@@ -8,6 +8,8 @@ bibentry_key <- function(x){                                                    
 }
 
 get_bibentries <- function(..., package = NULL, bibfile = "REFERENCES.bib"){     # 2013-03-29
+#browser()
+
     fn <- if(is.null(package))
               file.path(..., bibfile)
           else
@@ -17,7 +19,13 @@ get_bibentries <- function(..., package = NULL, bibfile = "REFERENCES.bib"){    
         warning("More than one file found, using the first one only.")
         fn <- fn[1]
     }
-    res <- read.bib(file=fn, package=package)
+
+
+    ## 2018-02-14: TODO: this also needs adjustment to work in  development mode in RStudio,
+    ##             without this adjustment read.bib can't find REFERENCES.bib
+    ##             (see insert_ref())
+        res <- read.bib(file = fn, package = package)
+
     ## 2016-07-26 Now do this only for versions of  bibtex < '0.4.0'.
     ##            From bibtex '0.4.0' read.bib() sets the names.
     if(packageVersion("bibtex") < '0.4.0'){
@@ -29,7 +37,7 @@ get_bibentries <- function(..., package = NULL, bibfile = "REFERENCES.bib"){    
 
 
 rebib <- function(infile, outfile, ...){                     # 2013-03-29
-    rdo <- parse_Rd(infile)   ## 2017-11-25 TODO: argument for RdMacros!
+    rdo <- permissive_parse_Rd(infile)   ## 2017-11-25 TODO: argument for RdMacros!
 
     if(missing(outfile))
         outfile <- basename(infile)
@@ -189,7 +197,51 @@ insert_ref <- function(key, package = NULL, ...) { # bibfile = "REFERENCES.bib"
 
     ## TODO: "names<-()" may change some keys since bibtex keys are not necessarilly R
     ##       syntactic names.
-    bibs <- read.bib(package = package, ...)
+    ##
+    ## 2018-02-14: adjust to work in  development mode in RStudio,
+    ##             without this adjustment read.bib can't find REFERENCES.bib
+    ##
+    ## It would probably be more robust to use rstudioapi::isAvailable()
+    ##   but then "rstudioapi" woud have to be moved from "Suggests:" to "Imports:"
+    ##
+    ## TODO: actually need to check if the package is in development mode in RStudio
+    ##
+    ## Simplitying this:
+    ##   if(identical(.Platform$GUI, "RStudio")){
+    ##       ## TODO: take care for the case when bibfile contains path
+    ##       ##       and also that builtin packages are treated specially by read.bib
+    ##       bibfile_path <- system.file("inst", "REFERENCES.bib", package = package)
+    ##       if(!file.exists(bibfile_path))
+    ##           bibfile_path <- system.file("REFERENCES.bib", package = package)
+    ##       bibs <- read.bib(file = bibfile_path) # TODO: drops ...; handle at least "encoding"?
+    ##   }else{
+    ##       ## 2018-02-14 the above change is needed also when using devtools::load_all()
+    ##       ##            outside RStudio
+    ##       bibfile_path <- system.file("inst", "REFERENCES.bib", package = package)
+    ##       if(file.exists(bibfile_path)){
+    ##           ## devtools development mode
+    ##           bibs <- read.bib(file = bibfile_path) # TODO: drops ...; handle at least "encoding"?
+    ##       }else{
+    ##           ## not in development mode - keep the old call
+    ##           bibs <- read.bib(package = package, ...)
+    ##       }
+    ##   }
+
+    ## this simplifies the above change:
+    bibfile_path <- system.file("inst", "REFERENCES.bib", package = package)
+    if(file.exists(bibfile_path)){
+        ## devtools development mode
+        bibs <- read.bib(file = bibfile_path) # TODO: drops ...; handle at least "encoding"?
+    }else{
+        ## not in development mode - keep the old call
+        ##    Strictly speaking, "REFERENCES.bib" does not exist for bult-in packages, but
+        ##    read.bib simulates it for them, see bibtex:::findBibFile().  So, if package is
+        ##    such a package we may be in development mode here, and the following call may
+        ##    fail.  BUT is this possible or even realistic scenario for such packages would
+        ##    be under developed with devtools::load_all(), etc.?
+        bibs <- read.bib(package = package, ...)
+    }
+
     if(packageVersion("bibtex") < '0.4.0'){
         names(bibs) <- sapply(1:length(bibs), function(x) bibentry_key(bibs[[x]][[1]]))
     }
@@ -257,12 +309,16 @@ viewRd <- function(infile, type = "text", stages = NULL){
     infile <- normalizePath(infile)
 
     if(is.null(stages))
+        # stages <- c("install", "render")
         stages <- c("build", "install", "render")
+        # stages <- c("build", "render")
     else if(!is.character(stages) || !all(stages %in% c("build", "install", "render")))
         stop('stages must be a character vector containing one or more of the strings "build", "install", and "render"')
 
+    ## here we need to expand the Rd macros, so don't use permissive_parse_Rd()
+    ## TODO: (BUG) e is NULL under RStudio
     e <- tools::loadPkgRdMacros(system.file(package = "Rdpack"))
-    Rdo <- parse_Rd(infile, macros = e)
+    ## Rdo <- parse_Rd(infile, macros = e)
 
     pkgname <- basename(dirname(dirname(infile)))
     outfile <- tempfile(fileext = paste0(".", type))
@@ -271,14 +327,19 @@ viewRd <- function(infile, type = "text", stages = NULL){
     ##        on.exit(unlink(outfile))
     switch(type,
            text = {
-               temp <- tools::Rd2txt(Rdo, out = outfile, package = pkgname, stages = stages)
+               temp <- tools::Rd2txt(infile, # was: Rdo,
+                                     out = outfile, package = pkgname, stages = stages
+                                     , macros = e)
                file.show(temp, delete.file = TRUE) # text file is deleted
            },
            html = {
-               temp <- tools::Rd2HTML(Rdo, out = outfile, package = pkgname,
-                                      stages = stages)
+               temp <- tools::Rd2HTML(infile, # was: Rdo,
+                                      out = outfile, package = pkgname,
+                                      stages = stages
+                                      , macros = e)
                browseURL(temp)
                ## html file is not deleted
+#browser()
            },
            stop("'type' should be one of 'text' or 'html'")
            )

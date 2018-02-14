@@ -1,3 +1,52 @@
+Changes in Version 0.5-5 (CRAN)
+
+   - Streamlined the help page of reprompt() and Rdpack-package.
+
+   - new argument, `edit', in reprompt() opens the Rd file after updating it.
+
+   - new function ereprompt() (`e' for edit) - opens reprompt() with suitable
+     defaults to replace the original Rd file and open it in an editor, otherwise
+     equivalent to reprompt().
+
+   - now if `infile' does not exist, reprompt(), and hence ereprompt(), strips
+     the directory part, finds the root of the package directory, and looks for
+     the file under `man/' (this uses package `rprojroot'). In particular,
+     if the working directory is anywhere under the package root,
+     `infile' can be simply the name of the Rd file, without path.
+
+   - now README.md is generated from README.org. I changed the layout and
+     amended the information in it.
+
+   - README.* now get links to https://github.com/GeoBosh/georgisemacs
+     for an emacs function to reprompt() the Rd file at point.
+
+   - viewRd() now works also when the file is from a package under devtools'
+     development mode on any platform (e.g. RStudio, Emacs/ESS, Rgui).
+
+
+Changes in Version 0.5-4.9000
+
+   - new RStudio add-in 'Reprompt', contributed by Duncan Murdoch.
+
+     If the file being edited in the code editor is an Rd file it calls
+     reprompt(). If the file is as R source file, it looks for the help page of
+     a selected object name and works on it if found, otherwise creates one.
+
+
+Changes in Version 0.5-4
+
+   - added the version of Rdpack to the abstract of the vignette.
+     This seems more informative than giving the compilation date.
+
+   - now reprompt() doesn't give spurious warnings about unknown Rd macros when
+     the Rd file contains user defined Rd macros. These warnings were harmless
+     and rare, but alarming and annoying. 
+
+   - fixed a bug in inspect_args() which caused the warning
+       "In is.na(x) : is.na() applied to non-(list or vector) of type 'NULL'"
+     in reprompt(), when the signature of a function in "Usage" section was empty. 
+
+
 Changes in Version 0.5-3 (CRAN)
 
    - The warning message about a missing reference key now appears also in the
