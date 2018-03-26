@@ -7,10 +7,3 @@ library(Rdpack)
 pd <- packageDescription("Rdpack")
 
 
-###################################################
-### code chunk number 2: Inserting_bibtex_references.Rnw:238-240
-###################################################
-library(Rdpack)
-cat(insert_ref("R", package = "bibtex"), sep ="\n")
-
-
