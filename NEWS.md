@@ -1,3 +1,30 @@
+# Changes in Version 0.8-0 (CRAN)
+
+- \insertRef and \insertAllCited macros now support `bibstyles` for formatting
+  references (feature requested by Jamie Halliday, issue#5). Use `Rdpack (>=
+  0.8)` in `Imports:` to use this feature. Currently only long
+  author names are supported but complete support for styles can be added
+  trivially if requested. 
+  
+- updates to the documentation, in particular the bulk of Rdpack-package.Rd was
+  from 2011!
+
+
+
+# Changes in Version 0.7-1
+
+- improvements to handling of free form citations in textual mode:
+
+  - (bugfix) now the whole citation is not parenthesised in textual mode,
+  
+  - the handling for textual mode was incomplete in that additional text after
+    the citation was not put inside the parentheses along with the year.
+
+- updates to the documentation.
+
+- fix a bug in `Rdo_locate_core_section()`.
+
+
 # Changes in Version 0.7-0 (CRAN)
 
 - consolidated the changes introduced since the previous CRAN release of Rdpack
@@ -14,6 +41,7 @@
   the package, but not errors. Dummy entries are inserted in the documentation
   explaining what was amiss (currently with 'author' A Adummy). 
 
+
 # Changes in Version 0.6-x
 
 - new Rd macros for citations
@@ -26,7 +54,7 @@
    - `\insertNoCite` records the keys but does not produce a citation.
 
    - `\insertAllCited` prints a bibliography including all references recorded
-     by `\insertAllCited` and `\insertNoCite`.
+     by `\insertCite` and `\insertNoCite`.
 
 - new entries in this file will use markdown syntax.
 

@@ -1,29 +1,32 @@
 Rdpack provides functions for manipulation of R documentation objects, including
-function `reprompt()` for updating existing Rd documentation for functions,
-methods and classes; function `rebib()` for import of references from `bibtex`
-files; a macro for importing `bibtex` references which can be used in `Rd` files
-and `roxygen2` comments; and other convenience functions for references.
+functions `reprompt()` and `ereprompt()` for updating existing Rd documentation
+for functions, methods and classes; Rd macros for citations and import of
+references from `bibtex` files for use in `Rd` files and `roxygen2` comments;
+and many functions for manipulation of references and Rd files.
 
 
 # Table of Contents
 
-1.  [Installing Rdpack](#orgea0117c)
-2.  [Inserting Bibtex references](#org16f4315)
-    1.  [Preparation](#orgd4837bd)
-    2.  [Inserting references](#orge79d380)
-    3.  [Inserting citations](#org245c345)
-    4.  [Development using \*devtools"](#org42749b2)
-3.  [Using Rdpack::reprompt()](#orga838b1e)
-    1.  [What it does](#org0ba5a94)
-    2.  [Reprompt and open in an editor](#orgecf1962)
-4.  [Viewing Rd files](#orgdd02fd3)
+1.  [Installing Rdpack](#org8d2a209)
+2.  [Inserting Bibtex references](#org480a26b)
+    1.  [Preparation](#orgeaa3a8d)
+    2.  [Inserting references](#org873f83e)
+    3.  [Inserting citations](#org31fda88)
+    4.  [Changing the style of references](#org2a718c9)
+    5.  [Troubleshooting](#orgd3b5f65)
+        1.  [A puzzling message in devtools development mode](#orga76481d)
+        2.  [Typical errors](#org6082922)
+3.  [Viewing Rd files](#org6b89043)
+4.  [Using Rdpack::reprompt()](#orgc1a2dc4)
+    1.  [What it does](#org3bfd2de)
+    2.  [Reprompt and open in an editor](#orgcea3ac4)
 
 
-<a id="orgea0117c"></a>
+<a id="org8d2a209"></a>
 
 # Installing Rdpack
 
-The [latest stable version](https://cran.r-project.org/package=Rdpack) is on CRAN. 
+Install the  [latest stable version](https://cran.r-project.org/package=Rdpack) from CRAN:
 
     install_packages("Rdpack")
 
@@ -33,7 +36,7 @@ You can also install the [development version](https://github.com/GeoBosh/Rdpack
     install_github("GeoBosh/Rdpack")
 
 
-<a id="org16f4315"></a>
+<a id="org480a26b"></a>
 
 # Inserting Bibtex references
 
@@ -44,7 +47,7 @@ the `DESCRIPTION` file of the package needs to be amended, see below the full
 details. 
 
 
-<a id="orgd4837bd"></a>
+<a id="orgeaa3a8d"></a>
 
 ## Preparation
 
@@ -75,7 +78,7 @@ enumerated below in somewhat more detail, see also the vignette
     put the BibTeX references in it.
 
 
-<a id="orge79d380"></a>
+<a id="org873f83e"></a>
 
 ## Inserting references
 
@@ -114,13 +117,16 @@ is when the other package is also yours - this allows authors of multiple
 packages to not copy the same refences to each of their own packages.
 
 For further details see the vignette 
-[`Inserting_bibtex_references (development version on github)`](https://github.com/GeoBosh/Rdpack/blob/master/vignettes/Inserting_bibtex_references.pdf)
-or open it from `R`:
+[`Inserting_bibtex_references`](https://cran.r-project.org/package=Rdpack)
+or open the the from `R`:
 
     vignette("Inserting_bibtex_references", package = "Rdpack")
 
+(The latest version of the vignette is at
+[`Inserting_bibtex_references (development version on github)`](https://github.com/GeoBosh/Rdpack/blob/master/vignettes/Inserting_bibtex_references.pdf).)
 
-<a id="org245c345"></a>
+
+<a id="org31fda88"></a>
 
 ## Inserting citations
 
@@ -136,14 +142,16 @@ more keys separated by commas.
  (Murdoch 2010; Francois 2014)
 and 
  `\insertCite{Rpack:bibtex}{Rdpack}`         gives
-(Francois 2014)
+(Francois 2014).
 
-By default the citations are parenthesised `\insertCite{parseRd}{Rdpack}` produces
-(Murdoch 2010).  To get textual citations, like
-Murdoch (2010)  put the string `{;textual}` at the end
-of the key. The references in the last two sentences would be produced with
-`\insertCite{parseRd}{Rdpack}` and `\insertCite{parseRd;textual}{Rdpack}`,
-respectively.  This also works with several citations, e.g.
+By default the citations are parenthesised: `\insertCite{parseRd}{Rdpack}` produces
+(Murdoch 2010).  To get
+textual citations, like 
+Murdoch (2010), 
+put the string `;textual` at the end of the key. The references in the last two sentences
+would be produced with `\insertCite{parseRd}{Rdpack}` and
+`\insertCite{parseRd;textual}{Rdpack}`, respectively.  This also works with several
+citations, e.g.
 
 `\insertCite{parseRd,Rpack:bibtex;textual}{Rdpack}` produces:
 Murdoch (2010); Francois (2014).
@@ -160,12 +168,12 @@ record the specified references for inclusion by `\insertAllCited`.
 in the references section will keep it up to date automatically. 
 The Rd section may look something like:
 
-    \insertAllCited
+    \insertAllCited{}
 
 or, in roxygen2, the references chunk might look like this:
 
     #' @references
-    #'     \insertAllCited
+    #'     \insertAllCited{}
 
 To mix the citations with other text, such as \`\`see also'' and
 \`\`chapter 3'', write the list of keys as a free text, starting
@@ -182,7 +190,7 @@ produces:
 
 (see also Murdoch 2010; Francois 2014) 
 
-(see also Murdoch (2010) and Francois (2014))
+see also Murdoch (2010) and Francois (2014)
 
 &#x2014;
 
@@ -191,9 +199,39 @@ produces:
 references for `\insertAllCited`.
 
 
-<a id="org42749b2"></a>
+<a id="org2a718c9"></a>
 
-## Development using \*devtools"
+## Changing the style of references
+
+Bibliography styles for lists of references are supported from <span class="underline">Rdpack (>=
+0.8)</span>. Currently the only alternative offered is to use long names (Georgi
+N. Boshnakov) in place of the default style (Boshnakov GN). More comprehensive
+alternatives can be included if needed or requested.
+
+To cause all list of references produced by `\insertAllCited` in a package to appear with
+full names, add `.onLoad()` function to your package. If you don't have `.onLoad()`, just
+copy the following definition: 
+
+    .onLoad <- function(lib, pkg){
+        Rdpack::Rdpack_bibstyles(package = pkg, authors = "LongNames")
+        invisible(NULL)
+    }
+
+If you already have `.onLoad()`, add the line containing the
+`Rdpack::Rdpack_bibstyles` call to it.
+
+After installling/reloading your package the lists of references should appear
+with long author names. "Rdpack" itself now uses this style.
+
+
+<a id="orgd3b5f65"></a>
+
+## Troubleshooting
+
+
+<a id="orga76481d"></a>
+
+### A puzzling message in devtools development mode
 
 The described procedure works transparently in `roxygen2` chunks and with Hadley
 Wickham's package `devtools`.  Packages are built and installed properly with
@@ -206,24 +244,66 @@ references, you may encounter some puzzling warning messages, something like:
     1: In tools::parse_Rd(path) :
       ~/mypackage/man/abcde.Rd: 67: unknown macro '\insertRef'
 
-These warnings are harmless - the help pages are built properly and no warnings
-appear outside *developer's mode*, e.g. in a separate R~session. See below for a
-way to inspect help pages directly from Rd files.
-
-If you care, here is what happens.  These warnings appear because `devtools`
-reroutes the help command to process the developer's Rd sources (rather than the
-documentation in the installed directory) but doesn't tell `parse_Rd` where to
-look for additional macros. Indeed, the message above shows that the error is in
-processing a source Rd file in the development directory of the package and that
-the call to `parse_Rd` specifies only the file.
+These warnings are harmless and can be ignored &#x2014; the help pages are built
+properly and no warnings appear outside *developer's mode*, e.g. in a separate R
+session<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>. Even better, use the function `viewRd()` described
+below to view the required help file.
 
 
-<a id="orga838b1e"></a>
+<a id="org6082922"></a>
+
+### Typical errors
+
+The functions underlying the processing of references and citations intercept
+errors, such as missing BibTeX labels or badly formed items in REFERENCES.bib,
+and issue informative warnings during the building and installation of the
+package, so that the developer is alerted but the package can still be built and
+installed. In these cases the functions usually insert a suitable text in the
+documentation, as well. If you encounter a situation contradicting this
+description, it is probably a bug &#x2014; please report it (but check first for the
+typical errors listed below).
+
+A non-decipherable error message is probably caused by one of the following 
+typical errors:
+
+-   misspelled `RdMacros:` field in file DESCRIPTION. The safest way to avoid this
+    is to copy it from the DESCRIPTION file of a working package.
+
+-   omitted second argument of a reference or citation macro. Most of these macros
+    have the package name as a second argument.
+
+These errors occur during parsing of the Rd files, before the control is passed
+to the `Rdpack`'s macros. 
+
+
+<a id="org6b89043"></a>
+
+# Viewing Rd files
+
+A function, `viewRd()`, to view Rd files in the source directory of a package
+was introduced in version 0.4-23 of `Rdpack`. A typical user call would look
+something like:
+
+    Rdpack::viewRd("./man/filename.Rd")
+
+By default the requested help page is shown in text format. To open the page in
+a browser, set argument 'type' to "html":
+
+    Rdpack::viewRd("./man/filename.Rd", type = "html")
+
+`viewRd()` renders references and citations correctly, since it understands Rd macros.
+
+Users of 'devtools' can use `viewRd` in place of `help()` to view rendered Rd
+sources in development mode. This should work also in development mode on any
+platform (e.g. RStudio, Emacs/ESS, Rgui).
+
+
+<a id="orgc1a2dc4"></a>
 
 # Using Rdpack::reprompt()
 
 
-<a id="org0ba5a94"></a>
+<a id="org3bfd2de"></a>
 
 ## What it does
 
@@ -250,7 +330,7 @@ but it alerts the user to remove aliases, methods, and descriptions of arguments
 that have been removed. 
 
 
-<a id="orgecf1962"></a>
+<a id="orgcea3ac4"></a>
 
 ## Reprompt and open in an editor
 
@@ -273,21 +353,12 @@ Elisp code), for example to be invoked on the currently edited file. Such a
 function and example key binding can be found at [georgisemacs](https://github.com/GeoBosh/georgisemacs).
 
 
-<a id="orgdd02fd3"></a>
+# Footnotes
 
-# Viewing Rd files
-
-A function, `viewRd()` to view Rd files in the source directory of a package was
-introduced in version 0.4-23 of `Rdpack`. A typical user call would look something like:
-
-    Rdpack::viewRd("./man/filename.Rd")
-
-By default the requested help page is shown in text format. To open the page in a browser,
-set argument 'type' to "html":
-
-    Rdpack::viewRd("./man/filename.Rd", type = "html")
-
-Users of 'devtools' can use `viewRd` in place of `help()` to view rendered Rd sources.
-This should work also in development mode
-on any platform (e.g. RStudio, Emacs/ESS, Rgui).
-
+<sup><a id="fn.1" href="#fnr.1">1</a></sup> If you care, here is what happens.  These warnings appear
+because `devtools` reroutes the help command to process the developer's Rd
+sources (rather than the documentation in the installed directory) but doesn't
+tell `parse_Rd` where to look for additional macros. Indeed, the message above
+shows that the error is in processing a source Rd file in the development
+directory of the package and that the call to `parse_Rd` specifies only the
+file.

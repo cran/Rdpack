@@ -326,7 +326,7 @@ insert_ref <- function(key, package = NULL, ...) { # bibfile = "REFERENCES.bib"
             note = note,
             key = key
         )
-        toRd(item)
+        .toRd_styled(item, package)
     }else if(length(key) == 1){
         item <- tryCatch(bibs[[key]],
                          warning = function(c) {
@@ -364,13 +364,13 @@ insert_ref <- function(key, package = NULL, ...) { # bibfile = "REFERENCES.bib"
             #     if(inherits(item, "bibentry")  &&  !is.null(item$url))
             #         item$url <- gsub("([^\\])%", "\\1\\\\%", item$url)
 
-        toRd(item) # TODO: add styles? (doesn't seem feasible here)
+        .toRd_styled(item, package) # TODO: add styles? (doesn't seem feasible here)
     }else{
         ## key is documented to be of length one, nevertheless handle it too
         kiki <- FALSE
         items <- withCallingHandlers(bibs[[key]], warning = function(w) {kiki <<- TRUE})
         ## TODO: deal with URL's as above
-        txt <- toRd(items)
+        txt <- .toRd_styled(items, package)
 
         if(kiki){ # warning(s) in bibs[[key]]
             s <- paste0("WARNING: failed to insert ",
@@ -603,18 +603,39 @@ insert_citeOnly <- function(keys, package = NULL, before = NULL, after = NULL,
     refch <-  "@"
     refchpat <- paste0("^[", refch, "]")
     if(grepl(refchpat, keys)){
-        ch <- substr(keys, 1, 1)
+        ch <- substr(keys, 1, 1) # 'ch' is not used currently
         keys <- substr(keys, 2, nchar(keys)) # drop refch
+        ## TODO: check if there are still @'s at this point
 
-        refpat <- paste0("(", refch, "[^;,[:space:]]+)")  #  "(@[^;,[:space:]]+)"
+        refpat <- paste0("(", refch, "[^;,()[:space:]]+)")  #  "(@[^;,[:space:]]+)"
+        if(textual){
+            wrkkeys <- strsplit(keys, "@")[[1]] # note [[1]] !!!
+
+            ## the last key is special, since there is none after it
+            nk <- length(wrkkeys)
+            wrkkeys[nk] <- if(grepl("[;,]$", wrkkeys[nk]))
+                               sub("([;,])$", ")\\1", wrkkeys[nk])
+                           else
+                               paste0(wrkkeys[nk], ")")
+
+            ## the 2nd element contains the first key even if the string starts with '@'
+            ##    (if that is the case the first string is "")
+            if(nk > 2){
+                for(i in 2:(nk - 1)){
+                    wrkkeys[i] <- if(grepl("([;,][^;,]*)$", wrkkeys[i]))
+                                      sub("([;,][^;,]*)$", ")\\1" , wrkkeys[i])
+                                  else
+                                      sub("^([^;,()[:space:]]+)", "\\1)" , wrkkeys[i])
+                }
+            }
+            keys <- paste0(wrkkeys, collapse = refch)
+        }
+
         m <- gregexpr(refpat, keys)
         allkeys <- regmatches(keys, m)[[1]] # note: [[1]]
-        allkeys <- gsub("@", "", allkeys)
+        allkeys <- gsub(refch, "", allkeys)
 
-        ## for now ignore bibpunct in this case
-        if(!textual)
-            bibpunct <- c("", "", ";", "a", "", ",")
-        else{
+        if(textual){
             bibpunct0 = c("(", ")", ";", "a", "", ",")
             if(!is.null(bibpunct)){
                 if(length(bibpunct) < length(bibpunct0))
@@ -624,21 +645,27 @@ insert_citeOnly <- function(keys, package = NULL, before = NULL, after = NULL,
                     bibpunct[ind] <- bibpunct0[ind]
             }else
                 bibpunct <- bibpunct0
+        }else{
+            ## for now ignore bibpunct in this case
+            bibpunct <- c("", "", ";", "a", "", ",")
         }
-                                        # if(length(bibpunct) < length(bibpunct0))
-                                        #     bibpunct <- c(bibpunct, bibpunct0[-seq_len(length(bibpunct))])
-                                        # ind <- which(is.na(bibpunct))
-                                        # if(length(ind) > 0)
-                                        #     bibpunct[ind] <- bibpunct0[ind]
+
         refs <- sapply(allkeys,
                        function(key)
                            safe_cite(key, bibs, textual = textual, bibpunct = bibpunct,
                                      from.package = package)
                        )
+        if(textual){
+            ## drop ")" - strong assumption that that is the last char
+            refs <- sapply(refs, function(s) substr(s, 1, nchar(s) - 1))
+        }
+
         ## replace keys with citations
         text <- keys
         regmatches(text, m) <- list(refs)
-        text <- paste0("(", text, ")")
+
+        if(!textual) # 2018-03-28 don't put patentheses in textual mode
+            text <- paste0("(", text, ")")
     }else{
         if(is.null(bibpunct))
             text <- safe_cite(keys, bibs, textual = textual, before = before, after = after
@@ -675,7 +702,7 @@ safe_cite <- function(keys, bib, ..., from.package = NULL){
     cite(keys = keys, bib = bib, ...)
 }
 
-insert_all_ref <- function(refs){
+insert_all_ref <- function(refs, style = ""){
     if(is.environment(refs)){
         refsmat <- refs$refsmat
         allbibs <- refs$allbibs
@@ -782,6 +809,85 @@ insert_all_ref <- function(refs){
     }
 
     bibs <- sort(bibs)
-    res <- sapply(bibs, function(x) toRd(x))
+
+    pkgs <- names(all.keys)
+          # \Sexpr[stage=build,results=hide]{requireNamespace("cvar")}
+    if(length(pkgs) > 0){
+        pkg <- pkgs[1] ## TODO: for now should do
+        if(!isNamespaceLoaded(pkg) && !requireNamespace(pkg) )
+            sty <- NULL
+        else{
+            sty <- Rdpack_bibstyles(pkg)
+        }
+    }else
+        sty <- NULL
+    
+    if(!is.null(sty))
+        res <- sapply(bibs, function(x) tools::toRd(x, style = "JSSLongNames"))
+    else {
+        if(style == "")
+            res <- sapply(bibs, function(x) tools::toRd(x))
+        else{
+            res <- sapply(bibs, function(x) tools::toRd(x, style = "JSSLongNames"))
+        }
+    }
+
     paste0(res, collapse = "\n\n")
+}
+
+# Clean up LaTeX accents and braces
+#     this is a copy of unexported  tools:::cleanupLatex by Duncan Murdoch.
+cleanupLatex <- function(x) {
+    if (!length(x)) return(x)
+    latex <- tryCatch(parseLatex(x), error = function(e)e)
+    if (inherits(latex, "error")) {
+    	x
+    } else {
+    	deparseLatex(latexToUtf8(latex), dropBraces=TRUE)
+    }
+}
+
+## ls(environment(bibstyle)$styles$JSS)
+.onLoad <- function(lib, pkg){
+    tools::bibstyle("JSSLongNames", .init = TRUE, .default = FALSE,
+        shortName = function(person) {
+            paste(paste(cleanupLatex(person$given), collapse=" "),
+                  cleanupLatex(person$family), sep = " ")
+        }
+        )
+
+    Rdpack_bibstyles(package = pkg, authors = "LongNames")
+    invisible(NULL)
+}
+
+Rdpack_bibstyles <- local({
+    styles <- list()
+    function(package, authors){
+        if((n <- nargs()) > 1){
+            styles[[package]] <<- authors
+            
+        }else if(n == 1)
+            styles[[package]]
+        else
+            styles
+    }
+})
+
+.toRd_styled <- function(bibs, package, style = ""){
+    if(!isNamespaceLoaded(package) && !requireNamespace(package) )
+        sty <- NULL
+    else{
+        sty <- Rdpack_bibstyles(package)
+    }
+    
+    if(!is.null(sty))
+        res <- sapply(bibs, function(x) tools::toRd(x, style = "JSSLongNames"))
+    else {
+        if(style == "")
+            res <- sapply(bibs, function(x) tools::toRd(x))
+        else{
+            res <- sapply(bibs, function(x) tools::toRd(x, style = "JSSLongNames"))
+        }
+    }
+    res
 }
