@@ -1,10 +1,63 @@
+# Changes in Version 0.9-0 (CRAN)
+
+- some brush-up of the documentation for the changes since version 0.8-0 of the package.
+
+
+# Changes in Version 0.8-4
+
+- now simple mathematics in BibTeX entries is rendered natively, no need to replace dollars
+  with `\eqn{}`.
+
+
+# Changes in Version 0.8-3
+
+- new macro `\printExample` for inclusion of example computations in narrative sections, such
+  as `Details`. The code is evaluated and printed similarly to `R` sessions but the code is
+  not prefixed and the output is prefixed with comment symbols, eg.
+  ```
+  2+2
+  ##: 4
+  ```
+
+- new experimental macro `\runExamples` for use as top level section in an Rd file as a
+  replacement of section `\examples`. `\runExamples{code}` evaluates the code and creates
+  section `\examples` containing the code and the results (similarly to `\printExample`).
+  So, `\runExamples{2 + 2}` produces 
+  ```
+  \examples{
+  2 + 2
+  ##: 4
+  }
+  ```
+  The generated section `examples` is processed by R's documentation tools (almost) as if it
+  was there from the outset. 
+
+- new experimental macro `\insertFig` to create a figure with `R` code and include it in the
+  documentation. The related macro `\makeFig` just creates a graphics file, which can be
+  included with the standard Rd command `\figure`. 
+  
+- new vignette gives a brief description of the new macros.
+  
+
+# Changes in Version 0.8-2
+
+- Now text citations use "et al." when there are three or more authors. 
+  (Issue#6 reported by Timothy P. Bilton)
+  
+
+# Changes in Version 0.8-1
+
+- in this file, added backticks to `\insertRef` and `\insertAllCited` (see
+  below) - in the rendered `News` on CRAN the backslashed words had disappeared.
+
+
 # Changes in Version 0.8-0 (CRAN)
 
-- \insertRef and \insertAllCited macros now support `bibstyles` for formatting
-  references (feature requested by Jamie Halliday, issue#5). Use `Rdpack (>=
-  0.8)` in `Imports:` to use this feature. Currently only long
+- `\insertRef` and `\insertAllCited` macros now support `bibstyles` for
+  formatting references (feature requested by Jamie Halliday, issue#5). Use
+  `Rdpack (>= 0.8)` in `Imports:` to use this feature. Currently only long
   author names are supported but complete support for styles can be added
-  trivially if requested. 
+  trivially if requested.
   
 - updates to the documentation, in particular the bulk of Rdpack-package.Rd was
   from 2011!
