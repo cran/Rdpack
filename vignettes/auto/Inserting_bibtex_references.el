@@ -6,12 +6,12 @@
    (TeX-add-to-alist 'LaTeX-provided-package-options
                      '(("fontenc" "T1") ("geometry" "left=2cm" "right=2cm" "bottom=15mm") ("natbib" "authoryear" "round" "longnamesfirst")))
    (add-to-list 'LaTeX-verbatim-environments-local "alltt")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperref")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "path")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperref")
    (add-to-list 'LaTeX-verbatim-macros-with-delims-local "path")
    (TeX-run-style-hooks
     "latex2e"
@@ -25,21 +25,18 @@
     "natbib"
     "hyperref")
    (LaTeX-add-labels
-    "sec:org288fce5"
-    "sec:orgb2db2dc"
-    "sec:orgb12f392"
-    "sec:orgff243e0"
+    "sec:orgc79b3b3"
+    "sec:orgfe7800e"
+    "sec:org2fea1e8"
+    "sec:orgdc147ec"
     "sec:macros-citations"
-    "sec:org2098c9b"
-    "sec:orgc23fd8d"
-    "sec:org23ed409"
-    "sec:org07ff283"
-    "sec:org6b16cbc"
-    "org50e22be"
-    "sec:orge2b9228")
-   (LaTeX-add-environments
-    '("eptblFigure" LaTeX-env-args ["argument"] 0)
-    '("epfigFigure" LaTeX-env-args ["argument"] 0)
-    '("epFigure" LaTeX-env-args ["argument"] 0)))
+    "sec:org11e5fdf"
+    "sec:orgbc3d713"
+    "sec:org6190898"
+    "sec:org9275454"
+    "sec:org2e4d56c"
+    "org7452bb4"
+    "sec:org32276c9"
+    "sec:org85c7e54"))
  :latex)
 

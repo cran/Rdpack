@@ -98,7 +98,18 @@ get_bibentries <- function(..., package = NULL, bibfile = "REFERENCES.bib",
             
     }
 
-    res <- read.bib(file = fn)
+    ## 2018-10-03
+    ## use package encoding if specified.
+    ## TODO: maybe this function should have argument 'encoding'
+    ## TODO: in principle the  Rd file may have its own encoding,
+    ##       but my current understanding is that parse_Rd() first converts it to UTF-8.
+    ##   BUT what is the encoding of the strings in the object returned by read.bib?
+    encoding <- if(!is.null(package) && !is.null(utils::packageDescription(package)$Encoding))
+                    utils::packageDescription(package)$Encoding
+                else
+                    "UTF-8"
+
+    res <- read.bib(file = fn, encoding = encoding)
 
          # 2018-03-10 commenting out
          #      since bibtex v. >= 0.4.0 has been required for a long time in DESCRIPTION
@@ -852,8 +863,12 @@ insert_all_ref <- function(refs, style = ""){
            else character(0)
 
     res <- .toRd_styled(bibs, pkg)
-
-    paste0(res, collapse = "\n\n")
+        # 2018-10-01 use \par since pkgdown ignores the empty lines
+        #     TODO: needs further thought
+        # was: 
+        #  (for now restoring the old one, to check ifpkgdown would consider this as a bug)
+     paste0(res, collapse = "\n\n")
+    # paste0(res, collapse = "\\cr\\cr ")
 }
 
 # Clean up LaTeX accents and braces
@@ -868,32 +883,7 @@ cleanupLatex <- function(x) {
     }
 }
 
-## ls(environment(bibstyle)$styles$JSS)
-.onLoad <- function(lib, pkg){
-    ## tools::bibstyle("JSSLongNames", .init = TRUE, .default = FALSE,
-    ##     shortName = function(person) {
-    ##         paste(paste(cleanupLatex(person$given), collapse=" "),
-    ##               cleanupLatex(person$family), sep = " ")
-    ##     },
-    ## 
-    ##     cleanupLatex = function(x) {
-    ##         if (!length(x)) return(x)
-    ##         latex <- tryCatch(tools::parseLatex(x), error = function(e)e)
-    ##         if (inherits(latex, "error")) {
-    ##             x
-    ##         } else {
-    ##             Rdpack:::deparseLatexToRd(latexToUtf8(latex), dropBraces=TRUE)
-    ##         }
-    ##     }
-    ##     
-    ##     )
-
-    set_Rdpack_bibstyle("JSSLongNames")
-    
-    Rdpack_bibstyles(package = pkg, authors = "LongNames")
-    invisible(NULL)
-}
-
+#+BEGIN_SRC R
 deparseLatexToRd = function(x, dropBraces = FALSE)
 {
     result <- character()
@@ -973,6 +963,13 @@ Rdpack_bibstyles <- local({
 ## }
 
 set_Rdpack_bibstyle <- function(bibstyle = "JSSRd"){
+    ## from /tools/R/bibstyle.R makeJSS()
+    collapse <- function(strings)
+        paste(strings, collapse="\n")
+    emph <- function(s)
+        if (length(s)) paste0("\\emph{", collapse(s), "}")
+
+
     switch(bibstyle,
     "JSSRd" = tools::bibstyle("JSSRd", .init = TRUE, .default = FALSE,
                     cleanupLatex = function(x) {
@@ -983,7 +980,30 @@ set_Rdpack_bibstyle <- function(bibstyle = "JSSRd"){
                         } else {
                             deparseLatexToRd(latexToUtf8(latex), dropBraces=TRUE)
                         }
+                    },
+
+                    ## modified from tools::makeJSS()
+                    ## TODO: report on R-devel?.
+                    bookVolume = function(book) {
+                        result <- ""
+                        if (length(book$volume)){
+                            result <- paste("volume", collapse(book$volume))
+                            if (length(book$number))
+                                result <- paste0(result, "(", collapse(book$number), ")")
+                            if (length(book$series))
+                                result <- paste(result, "of", emph(collapse(book$series)))
+                        }else if (length(book$number)){
+                            ## todo: in JSS style and others the title end with '.' and 
+                            ##       'number' is 'Number', but don't want to fiddle with this now. 
+                            result <- paste(result, "number", collapse(book$number))
+                            if (length(book$series))
+                                result <- paste(result, "in", collapse(book$series))
+                        }else if (length(book$series))
+                            result <- paste(result, collapse(book$series))
+                        if (nzchar(result)) result
                     }
+
+
                     ),
 
     "JSSLongNames" = tools::bibstyle("JSSLongNames", .init = TRUE, .default = FALSE,
@@ -997,6 +1017,25 @@ set_Rdpack_bibstyle <- function(bibstyle = "JSSRd"){
                         }
                     },
                     
+                    bookVolume = function(book) {
+                        result <- ""
+                        if (length(book$volume)){
+                            result <- paste("volume", collapse(book$volume))
+                            if (length(book$number))
+                                result <- paste0(result, "(", collapse(book$number), ")")
+                            if (length(book$series))
+                                result <- paste(result, "of", emph(collapse(book$series)))
+                        }else if (length(book$number)){
+                            ## todo: in JSS style and others the title end with '.' and 
+                            ##       'number' is 'Number', but don't want to fiddle with this now. 
+                            result <- paste(result, "number", collapse(book$number))
+                            if (length(book$series))
+                                result <- paste(result, "in", collapse(book$series))
+                        }else if (length(book$series))
+                            result <- paste(result, collapse(book$series))
+                        if (nzchar(result)) result
+                    },
+
                     shortName = function(person) {
                         paste(paste(cleanupLatex(person$given), collapse=" "),
                               cleanupLatex(person$family), sep = " ")
@@ -1005,4 +1044,30 @@ set_Rdpack_bibstyle <- function(bibstyle = "JSSRd"){
     ## default
     stop("Unknown bibstyle ", bibstyle)
     )
+}
+
+## ls(environment(bibstyle)$styles$JSS)
+.onLoad <- function(lib, pkg){
+    ## tools::bibstyle("JSSLongNames", .init = TRUE, .default = FALSE,
+    ##     shortName = function(person) {
+    ##         paste(paste(cleanupLatex(person$given), collapse=" "),
+    ##               cleanupLatex(person$family), sep = " ")
+    ##     },
+    ## 
+    ##     cleanupLatex = function(x) {
+    ##         if (!length(x)) return(x)
+    ##         latex <- tryCatch(tools::parseLatex(x), error = function(e)e)
+    ##         if (inherits(latex, "error")) {
+    ##             x
+    ##         } else {
+    ##             Rdpack:::deparseLatexToRd(latexToUtf8(latex), dropBraces=TRUE)
+    ##         }
+    ##     }
+    ##     
+    ##     )
+
+    set_Rdpack_bibstyle("JSSLongNames")
+    
+    Rdpack_bibstyles(package = pkg, authors = "LongNames")
+    invisible(NULL)
 }

@@ -1,30 +1,37 @@
+[![CRANStatusBadge](http://www.r-pkg.org/badges/version/Rdpack)](https://cran.r-project.org/package=Rdpack)
+[![rpackages.io rank](http://www.rpackages.io/badge/Rdpack.svg)](http://www.rpackages.io/package/Rdpack)
+
 Rdpack provides functions for manipulation of R documentation objects, including
 functions `reprompt()` and `ereprompt()` for updating existing Rd documentation
 for functions, methods and classes; Rd macros for citations and import of
-references from `bibtex` files for use in `Rd` files and `roxygen2` comments;
-and many functions for manipulation of references and Rd files.
+references from `bibtex` files for use in `Rd` files and `roxygen2` comments
+(`\insertRef`, `\insertCite`); Rd macros for evaluating and inserting snippets
+of R code and the results of its evaluation (`\printExample`) or creating
+graphics on the fly (`\insertFig`); and many functions for manipulation of
+references and Rd files.
 
 
 # Table of Contents
 
-1.  [Installing Rdpack](#orgaba8366)
-2.  [Inserting Bibtex references and citations](#org43964ea)
-    1.  [Preparation](#orgd4b1046)
-    2.  [Inserting references](#org74b656d)
-    3.  [Inserting citations](#org671c6b0)
-    4.  [Changing the style of references](#orga414a22)
-    5.  [Troubleshooting](#org42ce6a6)
-        1.  [A puzzling message in devtools development mode](#orgaf9110b)
-        2.  [Typical errors](#org3f51222)
-3.  [Viewing Rd files](#org2bbb062)
-4.  [Using Rdpack::reprompt()](#orgeab302e)
-    1.  [What it does](#orgde74e9d)
-    2.  [Reprompt and open in an editor](#orgcb865fc)
-5.  [Inserting evaluated examples](#orgabfa57b)
-6.  [Inserting figures/graphs/plots](#orgcb5ab38)
+1.  [Installing Rdpack](#orgd584939)
+2.  [Inserting Bibtex references and citations](#org450542e)
+    1.  [Preparation](#org66640f7)
+    2.  [Inserting references](#org8468ccc)
+    3.  [Inserting citations](#org4cfcd4c)
+    4.  [Changing the style of references](#org305e983)
+    5.  [Troubleshooting](#org3adc9c7)
+        1.  [A puzzling message in devtools development mode](#org2b1b2a3)
+        2.  [Typical errors](#org205f15c)
+3.  [Viewing Rd files](#org6b9b531)
+4.  [Using Rdpack::reprompt()](#org45c58bd)
+    1.  [What it does](#org820e014)
+    2.  [Reprompt and open in an editor](#orgfc00388)
+5.  [Inserting evaluated examples](#org091ed19)
+6.  [Inserting figures/graphs/plots](#org53bd6dd)
+7.  [Versions of Rdpack](#orgca65833)
 
 
-<a id="orgaba8366"></a>
+<a id="orgd584939"></a>
 
 # Installing Rdpack
 
@@ -38,18 +45,21 @@ You can also install the [development version](https://github.com/GeoBosh/Rdpack
     install_github("GeoBosh/Rdpack")
 
 
-<a id="org43964ea"></a>
+<a id="org450542e"></a>
 
 # Inserting Bibtex references and citations
 
 The simplest way to insert Bibtex references is with the Rd macro `\insertRef`.
 Just put `\insertRef{key}{package}` in the documentation to insert item with key
-`key`  from file `REFERENCES.bib` in your package `package`. For this to work
+`key` from file `REFERENCES.bib` in your package `package`. Alternatively, use
+one or more `\insertCite{key}{package}` commands to cite works from
+`REFERENCES.bib`, then issue a single `\insertAllCited{}` directive to produce a
+list of all cited references. For this to work
 the `DESCRIPTION` file of the package needs to be amended, see below the full
 details. 
 
 
-<a id="orgd4b1046"></a>
+<a id="org66640f7"></a>
 
 ## Preparation
 
@@ -80,7 +90,7 @@ enumerated below in somewhat more detail, see also the vignette
     put the BibTeX references in it.
 
 
-<a id="org74b656d"></a>
+<a id="org8468ccc"></a>
 
 ## Inserting references
 
@@ -120,7 +130,7 @@ packages to not copy the same refences to each of their own packages.
 
 For further details see the vignette 
 [`Inserting_bibtex_references`](https://cran.r-project.org/package=Rdpack)
-or open the the from `R`:
+or open it from `R`:
 
     vignette("Inserting_bibtex_references", package = "Rdpack")
 
@@ -128,22 +138,20 @@ or open the the from `R`:
 [`Inserting_bibtex_references (development version on github)`](https://github.com/GeoBosh/Rdpack/blob/master/vignettes/Inserting_bibtex_references.pdf).)
 
 
-<a id="org671c6b0"></a>
+<a id="org4cfcd4c"></a>
 
 ## Inserting citations
 
-From version 0.6-1 of "Rdpack", additional Rd macros are
-available for citations.  They can be used in both Rd and
-roxygen2 documentation.
+From version 0.6-1 of "Rdpack", additional Rd macros are available for
+citations.  They can be used in both Rd and roxygen2 documentation.
 
-`\insertCite{key}{package}` cites `key` and records it for
-use by `\insertAllCited`, see below. `key` can contain
-more keys separated by commas.
+`\insertCite{key}{package}` cites `key` and records it for use by
+`\insertAllCited`, see below. `key` can contain more keys separated by commas.
 
- `\insertCite{parseRd,Rpack:bibtex}{Rdpack}` produces 
- (Murdoch 2010; Francois 2014)
+`\insertCite{parseRd,Rpack:bibtex}{Rdpack}` produces 
+(Murdoch 2010; Francois 2014)
 and 
- `\insertCite{Rpack:bibtex}{Rdpack}`         gives
+`\insertCite{Rpack:bibtex}{Rdpack}`         gives
 (Francois 2014).
 
 By default the citations are parenthesised: `\insertCite{parseRd}{Rdpack}` produces
@@ -177,10 +185,10 @@ or, in roxygen2, the references chunk might look like this:
     #' @references
     #'     \insertAllCited{}
 
-To mix the citations with other text, such as \`\`see also'' and
-\`\`chapter 3'', write the list of keys as a free text, starting
-it with the symbol `@` and prefixing each key with it. 
-The `@` symbol will not appear in the output. For example, the following code
+To mix the citations with other text, such as \`\`see also'' and \`\`chapter 3'',
+write the list of keys as a free text, starting it with the symbol `@` and
+prefixing each key with it.  The `@` symbol will not appear in the output. For
+example, the following code
 
     \insertCite{@see also @parseRd and @Rpack:bibtex}{Rdpack}
     \insertCite{@see also @parseRd; @Rpack:bibtex}{Rdpack}
@@ -196,12 +204,11 @@ see also Murdoch (2010) and Francois (2014)
 
 &#x2014;
 
-`\insertCiteOnly{key}{package}` is as
-`\insertCite` but does not include the key in the list of
-references for `\insertAllCited`.
+`\insertCiteOnly{key}{package}` is as `\insertCite` but does not include the key
+in the list of references for `\insertAllCited`.
 
 
-<a id="orga414a22"></a>
+<a id="org305e983"></a>
 
 ## Changing the style of references
 
@@ -210,7 +217,7 @@ Bibliography styles for lists of references are supported from <span class="unde
 N. Boshnakov) in place of the default style (Boshnakov GN). More comprehensive
 alternatives can be included if needed or requested.
 
-To cause all list of references produced by `\insertAllCited` in a package to appear with
+To cause all lists of references produced by `\insertAllCited` in a package to appear with
 full names, add `.onLoad()` function to your package. If you don't have `.onLoad()`, just
 copy the following definition: 
 
@@ -226,12 +233,12 @@ After installling/reloading your package the lists of references should appear
 with long author names. "Rdpack" itself now uses this style.
 
 
-<a id="org42ce6a6"></a>
+<a id="org3adc9c7"></a>
 
 ## Troubleshooting
 
 
-<a id="orgaf9110b"></a>
+<a id="org2b1b2a3"></a>
 
 ### A puzzling message in devtools development mode
 
@@ -252,7 +259,7 @@ session<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>. Even better,
 below to view the required help file.
 
 
-<a id="org3f51222"></a>
+<a id="org205f15c"></a>
 
 ### Typical errors
 
@@ -278,7 +285,7 @@ These errors occur during parsing of the Rd files, before the control is passed
 to the `Rdpack`'s macros. 
 
 
-<a id="org2bbb062"></a>
+<a id="org6b9b531"></a>
 
 # Viewing Rd files
 
@@ -300,12 +307,12 @@ sources in development mode. This should work also in development mode on any
 platform (e.g. RStudio, Emacs/ESS, Rgui).
 
 
-<a id="orgeab302e"></a>
+<a id="org45c58bd"></a>
 
 # Using Rdpack::reprompt()
 
 
-<a id="orgde74e9d"></a>
+<a id="org820e014"></a>
 
 ## What it does
 
@@ -332,7 +339,7 @@ but it alerts the user to remove aliases, methods, and descriptions of arguments
 that have been removed. 
 
 
-<a id="orgcb865fc"></a>
+<a id="orgfc00388"></a>
 
 ## Reprompt and open in an editor
 
@@ -355,7 +362,7 @@ Elisp code), for example to be invoked on the currently edited file. Such a
 function and example key binding can be found at [georgisemacs](https://github.com/GeoBosh/georgisemacs).
 
 
-<a id="orgabfa57b"></a>
+<a id="org091ed19"></a>
 
 # Inserting evaluated examples
 
@@ -377,7 +384,7 @@ gives
 See vignette [`Inserting_figures_and_evaluated_examples`](https://github.com/GeoBosh/Rdpack/blob/master/vignettes/Inserting_figures_and_evaluated_examples.pdf) for more details.
 
 
-<a id="orgcb5ab38"></a>
+<a id="org53bd6dd"></a>
 
 # Inserting figures/graphs/plots
 
@@ -395,6 +402,20 @@ package `"mypackage"`, and include the figure using `\figure`.
 See vignette [`Inserting_figures_and_evaluated_examples`](https://github.com/GeoBosh/Rdpack/blob/master/vignettes/Inserting_figures_and_evaluated_examples.pdf) for more details.
 
 
+<a id="orgca65833"></a>
+
+# Versions of Rdpack
+
+Versions of `Rdpack` on Github are almost always fully functional (at least
+passing `R CMD check --as-cran`), and so use a three-part version number. If a
+version is really unstable, I would use the conventional fourth part
+`.9000`. For release on CRAN, the version is incremented to
+`x.x.0`<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>.
+
+Note that if `Rdpack (>= x.x.0)` is required, it can be abbreviated to 
+`Rdpack (>= x.x)`. 
+
+
 # Footnotes
 
 <sup><a id="fn.1" href="#fnr.1">1</a></sup> If you care, here is what happens.  These warnings appear
@@ -404,3 +425,5 @@ tell `parse_Rd` where to look for additional macros. Indeed, the message above
 shows that the error is in processing a source Rd file in the development
 directory of the package and that the call to `parse_Rd` specifies only the
 file.
+
+<sup><a id="fn.2" href="#fnr.2">2</a></sup> I adopted this versionning scheme from `Rdpack 0.7.0`.
