@@ -1,6 +1,46 @@
+# Rdpack 0.11-0 (CRAN)
+
+- Updated the vignette about `insertFig`, `printExample` and `\runExamples`, to 
+  reflect the lifting of some limitations of Rd processing vefore `R 3.6.0`. 
+  
+- Vignette /Inserting BibTeX references/ now includes a section on bibliography
+  styles. This section was previously only in README.
+  
+- The fix in Rdpack 0.10-3 (see below) for an issue introduced in R-devel in Oct
+  2018 will be made permanent, at least for now. This fix resolves also a
+  similar issue in package `pkgdown`, see the discussion at 
+  https://github.com/GeoBosh/Rdpack/issues/9 for details and further links.
+  
+  
+
+# Rdpack 0.10-3
+
+* fixed issue#9 (reported by by @aravind-j) appearing when a package is built
+  with R-devel (since about Oct 2018) causing references by `\insertAllCited{}`
+  to appear in a single paragraph in the `html` rendering of the Rd documentation.
+  
+
+# Rdpack 0.10-2
+
+* added pkgdown site to DESCRIPTION.
+
+* README and the vignette about evaluated examples now state that R-devel no
+  longer gives warnings about `\Sexpr` not being a top level section. 
+  This means that macro `runExamples` which creates section 'Examples'
+  containing code and results of evaluation will be useable in CRAN packages. 
+
+* new function `Rdo_fetch()` gets the Rd object representing a help page from an
+  installed or source package. It works also for packages under devtool's
+  developer's mode
+  
+* The site created with pkgdown contains fewer errors now.
+  (Note that the documentation builds without error with R's tools).
+
+* Started moving tests from my local setup to testthat. 
+
 # Rdpack 0.10-1 (CRAN)
 
-* removed redundant references from REFERENCES.bib (tehy were leftovers from
+* removed redundant references from REFERENCES.bib (they were leftovers from
   testing).
 
 # Rdpack 0.10-0 

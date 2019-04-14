@@ -19,8 +19,14 @@ Rdo_reparse(rdo)
   Also, the functions in this package do not attend to attribute
   "srcref" (and do not use it) and reparsing takes care of this.
   (todo: check if there is a problem if the tempfile disappears.)
-}
 
+  %insertCite{@see @parseRd,@Rpack:bibtex}{Rdpack}  % only for testing!
+
+  \insertCite{parseRd,Rpack:bibtex}{Rdpack}  % only for testing!
+}
+\references{
+\insertAllCited{} % only for testing
+}
 
 
 
@@ -31,8 +37,9 @@ Rdo_reparse(rdo)
 \examples{
 # the following creates Rd object rdo
 dummyfun <- function(x) x
-fn <- tempfile("dummyfun", fileext="Rd")
-reprompt(dummyfun, filename=fn)
+fn <- tempfile("dummyfun", fileext = "Rd")
+
+reprompt(dummyfun, filename = fn)
 rdo <- tools::parse_Rd(fn)
 
 dottext <- "further arguments to be passed on."
@@ -46,8 +53,6 @@ Rdo_show(Rdo_reparse(rdo2))
 #    (see also examples in Rdo_append_argument)
 Rdo_show(rdo2)
 
-
+unlink(fn)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{Rd}

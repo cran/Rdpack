@@ -866,9 +866,10 @@ insert_all_ref <- function(refs, style = ""){
         # 2018-10-01 use \par since pkgdown ignores the empty lines
         #     TODO: needs further thought
         # was: 
-        #  (for now restoring the old one, to check ifpkgdown would consider this as a bug)
-     paste0(res, collapse = "\n\n")
-    # paste0(res, collapse = "\\cr\\cr ")
+        #  (for now restoring the old one, to check if pkgdown would consider this as a bug)
+#browser()
+    # paste0(res, collapse = "\n\n")
+    paste0(res, collapse = "\\cr\\cr ")
 }
 
 # Clean up LaTeX accents and braces
@@ -932,6 +933,7 @@ Rdpack_bibstyles <- local({
     else
         sty <- Rdpack_bibstyles(package)
     
+    ## TODO: check if these 'sapply()'s preserve encodings, if set.
     if(!is.null(sty))
         res <- sapply(bibs, function(x) tools::toRd(x, style = "JSSLongNames"))
     else { # check style
@@ -944,6 +946,13 @@ Rdpack_bibstyles <- local({
             res <- sapply(bibs, function(x) tools::toRd(x, style = "JSSLongNames"))
         }
     }
+    ## 2018-10-08
+    ## TODO: this is risky but read.bib, bibentry, toRd and similar seem to work internally with UTF-8
+    ##     if(!all(Encoding(res) == "UTF-8")){
+    ##         ## warning(paste("encoding is: ", paste0(Encoding(res), collapse = ", "), "\n"))
+    ##         Encoding(res) <- "UTF-8"
+    ##     }
+    
     res
 }
 
