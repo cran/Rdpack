@@ -1,9 +1,40 @@
+# Rdpack 0.11-1
+
+- in documentation of S4 classes, such as `"classname-class.Rd"`, `reprompt()`
+  was sometimes inserting entries for slots already listed in the Slots
+  section. The same bug was causing the new slots not to be reported properly to
+  the user.
+
+- in some cases `reprompt()` failed to process properly `\S4method` entries in
+  the Usage section of Rd files. Now fixed.
+  
+- `reprompt()` now handles `\S4method` statements for replacement methods.  As
+  for other functions and methods (S3 and S4), it is sufficient to put a
+  declaration with empty argument list in the Usage sectio and `reprompt()` will
+  insert the correct formal arguments for the method (they may be different from
+  those of the generic).
+  
+- `reprompt()`  now gives a more helpful error message when `type` is invalid.
+
+- corrected some minor typo's in the documentation.
+
+- README and the documentation of `reprompt()` and `Rdpack-package` now give
+  more details on `reprompt()`ing replacement functions.
+
+- README.md and README.org now give the correct `install.packages`
+  instruction for CRAN (pull request #10 from @katrinleinweber).
+
+- some examples were leaving a stray file, `dummyfun.Rd`, after
+  `R CMD check`.
+  
+
 # Rdpack 0.11-0 (CRAN)
 
-- Updated the vignette about `insertFig`, `printExample` and `\runExamples`, to 
-  reflect the lifting of some limitations of Rd processing vefore `R 3.6.0`. 
+- Updated the vignette about `\insertFig`, `\printExample` and `\runExamples`,
+  to reflect the lifting in `R 3.6.0` of some limitations of Rd processing in
+  previous R versions.
   
-- Vignette /Inserting BibTeX references/ now includes a section on bibliography
+- Vignette 'Inserting BibTeX references' now includes a section on bibliography
   styles. This section was previously only in README.
   
 - The fix in Rdpack 0.10-3 (see below) for an issue introduced in R-devel in Oct
