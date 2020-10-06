@@ -1,8 +1,8 @@
 Package: Rdpack
 Type: Package
 Title: Update and Manipulate Rd Documentation Objects
-Version: 1.0.0
-Date: 2020-07-01
+Version: 2.0
+Date: 2020-10-05
 Authors@R: c( person(given = c("Georgi", "N."), 
                      family = "Boshnakov", 
                      role = c("aut", "cre"), 
@@ -22,15 +22,15 @@ URL: https://geobosh.github.io/Rdpack/ (website),
         https://github.com/GeoBosh/Rdpack (devel)
 BugReports: https://github.com/GeoBosh/Rdpack/issues
 Depends: R (>= 2.15.0), methods
-Imports: tools, utils, bibtex (>= 0.4.0), gbRd
+Imports: tools, utils, gbRd, rbibutils (>= 1.3)
 Suggests: grDevices, testthat, rstudioapi, rprojroot
 License: GPL (>= 2)
 LazyLoad: yes
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2020-07-01 15:34:24 UTC; georgi
+Packaged: 2020-10-05 12:40:25 UTC; georgi
 Author: Georgi N. Boshnakov [aut, cre],
   Duncan Murdoch [ctb]
 Maintainer: Georgi N. Boshnakov <georgi.boshnakov@manchester.ac.uk>
 Repository: CRAN
-Date/Publication: 2020-07-01 17:10:03 UTC
+Date/Publication: 2020-10-06 08:40:03 UTC
