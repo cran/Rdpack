@@ -1,4 +1,17 @@
-# Rdpack 2.0.0 (CRAN)
+# Rdpack 2.1 (CRAN)
+
+- dramatic speed up of processing of bibliography references, most noticeable
+  for users with large number of help pages and large `REFERENCES.bib`.
+  (prompted by Kisung You, issue #17)
+
+- amended the warning message from  bibliography macros to mention duplicated keys.
+
+- added entry for `rbibutils` in REFERENCES.bib. 
+
+- corrected wrong citation of `rbibutils`.
+
+
+# Rdpack 2.0 (CRAN)
 
 - removed `bibtex` from `Suggests` and elsewhere.
 
