@@ -1,3 +1,24 @@
+# Rdpack 2.1.2
+
+- Rdmacros generating references now drop the `URL` field if a `doi` field
+  generating the same URL is present. This avoids repetition of the URL since
+  rendering the `doi` field produces the URL anyway.
+
+- now references with identical authors are sorted by year.
+
+- fixed rebib() to process doi's properly.
+
+- now checks on github (using github actions) are done on the three major
+  platforms for the following versions of R: release, devel, oldrel, and 3.3.
+
+- now a warning (rather than error) is issued if package 'testthat' is not
+  available for tests.
+
+- now bibtex files are parsed with option `direct = TRUE` when the version of
+  `rbibutils` is >= ‘2.1.2’. This fixes GeoBosh/rbibutils#3 for Rdpack users
+  (although that needs fixing also for `direct = FALSE`).
+
+
 # Rdpack 2.1.1 (CRAN)
 
 - In `viewRd`, the default for the help type now is `options("help_type")`
