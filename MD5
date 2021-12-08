@@ -1,10 +1,10 @@
-072d94d3f274c11ef6a42137bec42e7f *DESCRIPTION
+4be8d47c7d1ff4f24d9eab8de0fcdb40 *DESCRIPTION
 cfae7fc0fc113ce7bcf13fa2251ddfe3 *NAMESPACE
-06cec5c1b8e978e29824bffe0c494ed6 *NEWS.md
+d21fcbf413aaad7c018aef9358bb14f8 *NEWS.md
 5c7c194cecb76e0046d4387e1b074ab9 *R/RStudio.R
 d4ba37dd52ea4f3252abca2a3da897af *R/Rdo2Rdf.R
 ae81a25645f62384220411684b33e8cf *R/alias.R
-7d9edc86c93adacdf2fc71bfbee5d093 *R/bib.R
+a9474185fa8cb3bb0e71106036fa5981 *R/bib.R
 bfe06e3d7f729a5614b0ba6fdc30fcfe *R/elements.R
 3e80ba9e806acef2fc33f8db6e840964 *R/f_usage.R
 95eb0f8cc5558175fc9e567c957ad7ba *R/inspect.R
@@ -22,7 +22,7 @@ b4d36330bf64cddf616d79b126677a8e *R/usage.R
 7a35e91aa982372631ca464d89ef63fc *R/utils.R
 dc4224cb43cc6669175bde3108e3d6e3 *R/yytransient.R
 1bef9cf65fcef657f8b5e1c4514468e1 *README.md
-07a8a6689e6131c18d7e372a0f83ab8f *build/partial.rdb
+a6a03d7e4b6810ca46fe75de8cf869ca *build/partial.rdb
 fdfddb08f2b9105a7550a1674c5be6c9 *build/vignette.rds
 66a9427385ed8ff5c7c9d66429aa1d17 *inst/CITATION
 4c03f55143d653e095cac712077a4922 *inst/REFERENCES.bib
@@ -30,10 +30,10 @@ fdfddb08f2b9105a7550a1674c5be6c9 *build/vignette.rds
 0e5181e1cc2c12c1fdee921645eb4637 *inst/auto/REFERENCES.el
 efb52cfa02f55d1d2ee932b7fb2f7243 *inst/doc/Inserting_bibtex_references.R
 27ecccc983261a2ef92304bbf919880e *inst/doc/Inserting_bibtex_references.Rnw
-873efc10952c7fd23aaa2546d94af231 *inst/doc/Inserting_bibtex_references.pdf
+8627dd67773d3ed2a3ec58c574e24cb1 *inst/doc/Inserting_bibtex_references.pdf
 65531fadaff311cac822edd83fcbae4f *inst/doc/Inserting_figures_and_evaluated_examples.R
 fd416bcea3135e6f78ea79cf0d315533 *inst/doc/Inserting_figures_and_evaluated_examples.Rnw
-89b577830fcf46d5ef4994fa53e8c1b4 *inst/doc/Inserting_figures_and_evaluated_examples.pdf
+1a6caa262b6535fce99ad82ed15f71d0 *inst/doc/Inserting_figures_and_evaluated_examples.pdf
 b122f5d3b5d8026264e902577f3fe840 *inst/examples/RdpackTester.pdf
 37133c96d536676dae244c529c92d11b *inst/examples/RdpackTester/DESCRIPTION
 8b54e5a89fbda3af5e077053d40bec76 *inst/examples/RdpackTester/NAMESPACE
@@ -45,7 +45,7 @@ db800015ba2282ec1e36c49316fd9cc0 *inst/examples/journal_with_percents.bib
 e8ac73c2782b741df4665121db17b036 *inst/examples/tz.Rd
 622b071bcbb4e3124bedfe8507e9046a *inst/examples/url_with_percents.bib
 3ce861b41014cb5f5a0f36efa1695703 *man/RStudio_reprompt.Rd
-54a40d82d306027c83c510207da8c7c6 *man/Rd_combo.Rd
+ce5ffdb9202ee9ceb957937ce58caf9c *man/Rd_combo.Rd
 0d6b7f6829f85cd59a480d4d029d38c7 *man/Rdapply.Rd
 d597ab179cce61522f258b7d333c7e2e *man/Rdo2Rdf.Rd
 2f632e1addaf24df60161cce2d1952ec *man/Rdo_append_argument.Rd
@@ -121,7 +121,7 @@ a62c0ada2058937d01c0979c411a746c *tests/testthat/char2Rdpiece_a.RDS
 8956358852e44bd8b1a7958831487987 *tests/testthat/char2Rdpiece_c.RDS
 af46fe05c6a34fa8a80ee2b0bd297cb3 *tests/testthat/get_sig_text_f1.RDS
 916988d6d5aed8c8213ff37afbfa52da *tests/testthat/get_sig_text_f4.RDS
-0851f3df86dbdb2e140f07d0a5653673 *tests/testthat/test-bib.R
+16a9ae06c64a2b01830f5280a7e6aa71 *tests/testthat/test-bib.R
 1a70e90cdbf147bdca609908935ef369 *tests/testthat/test-char2Rdpiece.R
 27ecccc983261a2ef92304bbf919880e *vignettes/Inserting_bibtex_references.Rnw
 da817fd3ce1ec1c429f8855f2ec8ac8d *vignettes/Inserting_bibtex_references.org
