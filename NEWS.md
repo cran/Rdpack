@@ -1,13 +1,25 @@
+# Rdpack 2.1.3.9000
+
+- Rdmacro `\insertCite` gets a new feature allowing to drop parentheses for
+  parenthesised citations, analogous to natbib's `\citealp` in latex. This makes
+  it possible to use markup around the citations outside the arguments of the
+  macro. This provides a workaround github issue #23 by @ms609.
+
+- updated vignette "Inserting_bibtex_references" and other documentation.
+
+- the pkgdown site now has a `Search` button on the navigation bar.
+
+
 # Rdpack 2.1.3 (CRAN)
 
 - fixed a test that was failing with versions of rbibutils before v2.1.1
   (issue reported by Andreas Tille).
 
 - if the version of rbibutils is greater than v2.2.5, parsing bib files with
-  `rbibutils::readBib` uses `texChars = "Rdpack"`. This ensures proper rendering
-  of `\'i' in references (by converting `\'i` to `\'\i` which base R renders
-  correctly).  For detailed discussion of this see issue GeoBosh/bibutils#7 and
-  NEWS.md in rbibutils v2.2.4 and v2.2.5.
+  `rbibutils::readBib` now uses `texChars = "Rdpack"`. This ensures proper
+  rendering of `\'i' in references (by converting `\'i` to `\'\i` which base R
+  renders correctly).  For detailed discussion of this see issue
+  GeoBosh/bibutils#7 and NEWS.md in rbibutils v2.2.4 and v2.2.5.
 
 
 # Rdpack 2.1.2 (CRAN)
