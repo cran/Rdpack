@@ -6,6 +6,7 @@
     "Rpackage:rbibutils"
     "parseRd"
     "Rdevtools"
-    "dummyArticle"))
+    "dummyArticle"
+    "DiaLop2020ejor"))
  :bibtex)
 
