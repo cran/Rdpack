@@ -393,9 +393,8 @@ Rdo_flatinsert <- function(rdo, val, pos, before = TRUE){                       
         bibs
     }
 
-    .get_all_bibs <- function(){
+    .get_all_bibs <- function()
         allbibs
-    }
 
     list(.get_bibs0 = .get_bibs0, .get_all_bibs = .get_all_bibs)
 })
@@ -802,6 +801,7 @@ insert_citeOnly <- function(keys, package = NULL, before = NULL, after = NULL,
                 ind <- which(is.na(bibpunct))
                 if(length(ind) > 0)
                     bibpunct[ind] <- bibpunct0[ind]
+#cat("bibpunct is: ", bibpunct, "\n")
             }else
                 bibpunct <- bibpunct0
         }else{
@@ -814,11 +814,12 @@ insert_citeOnly <- function(keys, package = NULL, before = NULL, after = NULL,
                            safe_cite(key, bibs, textual = textual, bibpunct = bibpunct,
                                      from.package = package)
                        )
+#print(refs)
         if(textual){
             ## drop ")" - strong assumption that that is the last char
             refs <- sapply(refs, function(s) substr(s, 1, nchar(s) - 1))
         }
-
+#print(refs)
         ## replace keys with citations
         text <- keys
         regmatches(text, m) <- list(refs)
@@ -881,7 +882,7 @@ safe_cite <- function(keys, bib, ..., from.package = NULL){
     cite(keys = keys, bib = bib, longnamesfirst = FALSE, ...)
 }
 
-insert_all_ref <- function(refs, style = ""){
+insert_all_ref <- function(refs, style = "", empty_cited = FALSE){
     if(is.environment(refs)){
         refsmat <- refs$refsmat
         allbibs <- .bibs_cache$.get_all_bibs()  # 2020-11-05 was: refs$allbibs
@@ -1027,6 +1028,9 @@ insert_all_ref <- function(refs, style = ""){
         # was: 
         #  (for now restoring the old one, to check if pkgdown would consider this as a bug)
 
+    if(empty_cited)
+        refs$refsmat <- matrix(character(0), nrow = 0, ncol = 2)
+    
         # paste0(res, collapse = "\n\n")
     paste0(res, collapse = "\\cr\\cr ")
 }
@@ -1042,8 +1046,18 @@ deparseLatexToRd <- function(x, dropBraces = FALSE)
         switch(tag,
         VERB = ,
         TEXT = ,
-        MACRO = ,
         COMMENT = result <- c(result, a),
+        MACRO = {
+            ## see issue #26
+            ## regex in r-devel/R/src/library/tools/R/RdConv2.R:
+            ##     pat <- "([^\\]|^)\\\\[#$&_^~]"
+            ## here we add grouping for substitution
+            pat <- "([^\\]|^)(\\\\)([#$&_^~])"  # with more grouping
+            if(grepl(pat, a)){
+                a <- gsub(pat, "\\1\\3", a)
+            }
+            result <- c(result, a)
+        },
         BLOCK = result <- c(result, if (dropBraces && lastTag == "TEXT") Recall(a) else c("{", Recall(a), "}")),
         ENVIRONMENT = result <- c(result,
         	"\\begin{", a[[1L]], "}",
