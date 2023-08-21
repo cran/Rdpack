@@ -1,7 +1,7 @@
 Package: Rdpack
 Type: Package
 Title: Update and Manipulate Rd Documentation Objects
-Version: 2.4
+Version: 2.5
 Authors@R: c( person(given = c("Georgi", "N."),
                      family = "Boshnakov", 
                      role = c("aut", "cre"), 
@@ -27,9 +27,9 @@ License: GPL (>= 2)
 LazyLoad: yes
 RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2022-07-20 11:23:22 UTC; georgi
+Packaged: 2023-08-19 17:25:40 UTC; georgi
 Author: Georgi N. Boshnakov [aut, cre],
   Duncan Murdoch [ctb]
 Maintainer: Georgi N. Boshnakov <georgi.boshnakov@manchester.ac.uk>
 Repository: CRAN
-Date/Publication: 2022-07-20 14:30:21 UTC
+Date/Publication: 2023-08-21 09:12:48 UTC
