@@ -1,3 +1,10 @@
+# Rdpack 2.6.4
+
+- fixed a couple of tests that was expecting warning to expect error in things
+  like `structure(NULL, xxx = "something")` since R-devel circa start of April 2025
+  turned that construct to an error).
+
+
 # Rdpack 2.6.3
 
 - changed the condition in the test fixing the issue in Rdpack v2.6.1 to
