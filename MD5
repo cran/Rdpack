@@ -1,6 +1,6 @@
-cbf7b147e7b0c25e85a323e3aab4aef4 *DESCRIPTION
+de2c44805349015b874bd610b4f2cd7a *DESCRIPTION
 6c40d12108073d4eb556ab81311a3bd3 *NAMESPACE
-43418b2fea5641263004d5ae3ef8008e *NEWS.md
+8709c6c16b55fdebbeef510e8738d14e *NEWS.md
 e46c5da214213a443b628bd5f3ffe3c9 *R/RStudio.R
 7c0d3f36409756364343fd987c096287 *R/Rdo2Rdf.R
 ae81a25645f62384220411684b33e8cf *R/alias.R
@@ -13,7 +13,7 @@ fea6530f38874362b59f1c95bc281116 *R/manip.R
 b9e4ce86d15977df259070a58545e889 *R/predefined.R
 41b3623cb4e992c23c3871dd269ffaa6 *R/promptSexpr.R
 abd60f89dfacc7bcc33a018b1c1858ff *R/repromptAny.R
-2f75ab377508f37bf57e06d300c8917c *R/runexamples.R
+90ff49affbc56a8c8c23d5c52be2fa93 *R/runexamples.R
 5735fe2d04a7a730872a94786ce2ac2a *R/sections.R
 2341d017a688b8470b0ccfef0418eed0 *R/signature.R
 4b03c8cfbf7a632aca417756f7ef766e *R/slots.R
@@ -22,16 +22,16 @@ b4d36330bf64cddf616d79b126677a8e *R/usage.R
 7a35e91aa982372631ca464d89ef63fc *R/utils.R
 dc4224cb43cc6669175bde3108e3d6e3 *R/yytransient.R
 05a1981a29b330ee53abf6c7e0367af2 *README.md
-e70aec7cdcc58921350f920088d35805 *build/partial.rdb
+a28a66123d0a730f960b85ce33a56aec *build/partial.rdb
 277716d35f44e059f1e9e30378e31491 *build/vignette.rds
 b603408b16eb8aac60723a9627a0c6f4 *inst/REFERENCES.bib
 66d8527ef38edbb31efd9f926c2db3da *inst/RStudio/addins.dcf
 5fd99e045c731ab68b38dbc862017ce5 *inst/doc/Inserting_bibtex_references.R
 6263b0dba61b785e9625c802d2cb0c8a *inst/doc/Inserting_bibtex_references.Rnw
-149ca942887ae62af9a9892790b1ce09 *inst/doc/Inserting_bibtex_references.pdf
+31102f8ebf53432f7d447c4d636ad2ef *inst/doc/Inserting_bibtex_references.pdf
 65531fadaff311cac822edd83fcbae4f *inst/doc/Inserting_figures_and_evaluated_examples.R
 9361c4e2d913b990a29963e80cedf582 *inst/doc/Inserting_figures_and_evaluated_examples.Rnw
-0c1a8af813e7ea08d86cbb8736c4c9e8 *inst/doc/Inserting_figures_and_evaluated_examples.pdf
+e9f949729b1b124a7f15d3844ce1257e *inst/doc/Inserting_figures_and_evaluated_examples.pdf
 933b5a32e8f91fc64fe3c812954f5f6f *inst/examples/Rdpack-package.Rd
 db800015ba2282ec1e36c49316fd9cc0 *inst/examples/journal_with_percents.bib
 e745d512aa7b30cd2a4fc63dc506e20b *inst/examples/reprompt.Rd
